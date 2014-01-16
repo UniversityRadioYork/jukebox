@@ -52,7 +52,7 @@ end
 
 # The default track scheduler - obeys licence requirements
 # and other funsies.
-main = request.dynamic(id="jukeox_main", myradio_sched)
+main = request.dynamic(id="jukebox_main", myradio_sched)
 
 # Jingles every 15min~ish
 jingles = playlist(reload_mode="watch", "/jukebox/jingles")
