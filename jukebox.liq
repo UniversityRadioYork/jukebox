@@ -63,7 +63,7 @@ cjjingle = playlist(mode="randomize", reload=3600, "/jukebox/cj-jingles")
 cjjingle = delay(1800., cjjingle)
 
 # Put all the pieces together
-jukebox = fallback([cjjingle, jingles, main, requests, playlists])
+jukebox = fallback([cjjingle, jingles, requests, main, playlists])
 jukebox = fallback(track_sensitive=false, [jukebox, techlude])
 
 # Avoid too much blank/silence in tracks
