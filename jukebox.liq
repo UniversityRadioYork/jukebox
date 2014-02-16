@@ -7,7 +7,7 @@
 %include "jukebox.conf"
 
 set("log.stdout",true)
-set("log.level",4)
+set("log.level",5)
 set("server.telnet.bind_addr", telnetaddr)
 set("server.telnet", true)
 set("log.file", true)
@@ -45,7 +45,7 @@ def myradio_sched() =
   # Get the first line of the response
   result =
     list.hd(
-      get_process_lines("/usr/local/myury/src/Controllers/jukebox_sched.php"))
+      get_process_lines(sched_script))
   # Create and return a request using this result
   request.create(result)
 end
