@@ -1,8 +1,3 @@
-icehost = 'icecasthost.internal'
-iceport = 7070
-icepass = 'MyIceCastPasswordBringsAllTheBoysToTheYard'
-website = 'http://mystation.fm/'
-name = "My Station Jukebox"
-description = "The UK's most jukeboxy radio"
 telnetaddr = "127.0.0.1"
 sched_script = "/path/to/scheduler/script"
+tracklist_script = "/path/to/tracklist/script"

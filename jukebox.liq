@@ -4,14 +4,15 @@
 # & Lloyd Wallis <flump5281@gmail.com>
 # & Andy Durant <andy@ajdurant.co.uk>
 # Launched on URY 2012-01-27 00:36
+%include "ice.conf"
 %include "jukebox.conf"
 
 set("log.stdout",true)
-set("log.level",5)
+set("log.level",3)
 set("server.telnet.bind_addr", telnetaddr)
 set("server.telnet", true)
 set("log.file", true)
-set("log.file.path","/var/log/jukebox.log")
+set("log.file.path","/usr/local/var/log/liquidsoap/jukebox.log")
 
 # Local file if music filestore isn't
 interludelong = mksafe(single("/jukebox/intermission-long.mp3"))
@@ -21,20 +22,20 @@ techlude = add([interludelong, switch([({0s}, techdiff)])])
 
 # Playlists - used if MyRadio script breaks
 # A list
-alist = playlist(reload_mode="watch", "playlists/a-list.pls", mime_type="application/xspf+xml")
+alist = playlist(reload_mode="watch", "/jukebox/playlists/a-list.pls", mime_type="application/xspf+xml")
 # B list
-blist = playlist(reload_mode="watch", "playlists/b-list.pls", mime_type="application/xspf+xml")
+blist = playlist(reload_mode="watch", "/jukebox/playlists/b-list.pls", mime_type="application/xspf+xml")
 # C list
-clist = playlist(reload_mode="watch", "playlists/c-list.pls", mime_type="application/xspf+xml")
+clist = playlist(reload_mode="watch", "/jukebox/playlists/c-list.pls", mime_type="application/xspf+xml")
 
 # Normal playlist
-default = playlist(reload_mode="watch", "playlists/normal-list.pls", mime_type="application/xspf+xml")
+default = playlist(reload_mode="watch", "/jukebox/playlists/normal-list.pls", mime_type="application/xspf+xml")
 
 # Main requests queue from MyRadio Requests page
 requests = request.queue(id="jukebox_requests")
 
 # Watershed only between 11pm and 4am
-watershed = playlist(mode="randomize", "/etc/liquidsoap/playlists/watershed.pls", mime_type="application/xspf+xml")
+watershed = playlist(mode="randomize", "/jukebox/playlists/watershed.pls", mime_type="application/xspf+xml")
 
 playlists_day = random(weights=[2, 1, 1, 2], [alist, blist, clist, default])
 playlists_night = random(weights=[2, 1, 1, 2, 1], [alist, blist, clist, default, watershed])
@@ -78,12 +79,12 @@ jukebox = smart_crossfade(start_next=5., fade_in=3., fade_out=3., jukebox, conse
 # Tracklist trigger
 def trig_tracklist(j) =
         filename = j["filename"]
-        system("/usr/local/bin/jukeboxtracklist.sh " ^ quote (filename))
+        system(tracklist_script ^ " " ^ quote (filename))
 end
 jukebox = on_metadata(trig_tracklist, jukebox)
 
 # Output to soundcards
-output.alsa(device="hw:0,0", jukebox, start=true)
+output.alsa(device="pcm.stereo1Out", jukebox, start=true)
 
 # Icecast outputs use a seperate clock to remove lag from the ALSA output
 clock.assign_new(id="jukebox",
@@ -98,17 +99,3 @@ clock.assign_new(id="jukebox",
 		name=name,
 		genre="Student Radio",
 		mksafe(buffer(jukebox)))])
-
-clock.assign_new(id="cplayout",
-[output.icecast(
-		%mp3(bitrate=192, samplerate=44100, stereo=true),
-		host=icehost,
-		port=iceport,
-		password=icepass,
-		mount="campus-playout",
-		url=website,
-		description=description,
-		name=name,
-		genre="Student Radio",
-		mksafe(buffer(jukebox)))])
-
