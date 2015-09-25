@@ -1,0 +1,6 @@
+icehost = 'icecasthost.internal'
+iceport = 7070
+icepass = 'MyIceCastPasswordBringsAllTheBoysToTheYard'
+website = 'http://mystation.fm/'
+name = "My Station Jukebox"
+description = "The UK's most jukeboxy radio"
