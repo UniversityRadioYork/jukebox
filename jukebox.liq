@@ -73,6 +73,8 @@ jukebox = skip_blank(max_blank=3., jukebox)
 # Apply replay gain
 jukebox = amplify(1.,override="replay_gain", jukebox)
 
+jukebox = amplify(0.2, jukebox)
+
 # Add in some crossfade
 jukebox = smart_crossfade(start_next=5., fade_in=3., fade_out=3., jukebox, conservative=true)
 
