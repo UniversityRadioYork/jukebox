@@ -3,8 +3,8 @@
 #
 set("log.level",3)
 set("log.stdout", true)
-set("log.file", false)
-set('log.file.path', '/usr/local/var/log/liquidsoap/live.log')
+set("log.file", true)
+set('log.file.path', '/usr/local/var/log/liquidsoap/sel.log')
 
 
 set('server.telnet', true)

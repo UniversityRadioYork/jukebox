@@ -4,7 +4,7 @@
 #
 set("log.level",3)
 set("log.stdout", true)
-set("log.file", false)
+set("log.file", true)
 set('log.file.path', '/usr/local/var/log/liquidsoap/live.log')
 
 set("frame.audio.channels",2)
