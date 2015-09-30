@@ -86,6 +86,20 @@ end
 # Setup OSC hook for /sel/XX
 osc.on_string("/sel", sel)
 
+# A simple cross-fade for transitions
+def crossswitch(a,b)
+    add(
+        normalize=false,
+        [
+            sequence([
+                    blank(duration=.1),
+                    fade.initial(duration=.2,b)
+            ]),
+            fade.final(duration=.2,a)
+        ]
+    )
+end
+
 
 # Blank detection system
 def blankHandler()
@@ -111,6 +125,12 @@ ob = input.jack(id="selOB")
 
 selector = switch(
     track_sensitive=false,
+    transitions=[
+        crossswitch,
+        crossswitch,
+        crossswitch,
+        crossswitch
+    ],
     [
         (onS1, studio1),
         (onS2, studio2),
