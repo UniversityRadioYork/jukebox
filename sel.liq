@@ -102,4 +102,6 @@ selector = switch(
 	]
 )
 
+selector = amplify(2.0, selector)
+
 output.alsa(device="pcm.stereo0Out", bufferize=false, fallible=true, selector)
