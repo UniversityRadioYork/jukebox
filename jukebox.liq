@@ -42,13 +42,14 @@ playlists_night = random(weights=[2, 1, 1, 2, 1], [alist, blist, clist, default,
 
 playlists = switch([({23h-4h}, playlists_night), ({4h-23h}, playlists_day)])
 
-def myradio_sched() = 
-  # Get the first line of the response
-  result =
-    list.hd(
-      get_process_lines(sched_script))
-  # Create and return a request using this result
-  request.create(result)
+def myradio_sched() =
+    # Get the first line of the response
+    result =
+        list.hd(
+            get_process_lines(sched_script)
+        )
+    # Create and return a request using this result
+    request.create(result)
 end
 
 # The default track scheduler - obeys licence requirements
@@ -91,13 +92,13 @@ output.alsa(device="pcm.stereo1Out", jukebox, start=true)
 # Icecast outputs use a seperate clock to remove lag from the ALSA output
 clock.assign_new(id="jukebox",
 [output.icecast(
-		%mp3(bitrate=192, samplerate=44100, stereo=true),
-		host=icehost,
-		port=iceport,
-		password=icepass,
-		mount="jukebox",
-		url=website,
-		description=description,
-		name=name,
-		genre="Student Radio",
-		mksafe(buffer(jukebox)))])
+    %mp3(bitrate=192, samplerate=44100, stereo=true),
+    host=icehost,
+    port=iceport,
+    password=icepass,
+    mount="jukebox",
+    url=website,
+    description=description,
+    name=name,
+    genre="Student Radio",
+    mksafe(buffer(jukebox)))])

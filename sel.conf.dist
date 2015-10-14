@@ -1,0 +1,3 @@
+blankscript = "/usr/local/bin/blank.sh"
+blankendscript = "/usr/local/bin/blankend.sh"
+criticalblankscript = "/usr/local/bin/criticalblank.sh"
