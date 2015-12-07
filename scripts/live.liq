@@ -23,8 +23,8 @@ end
 server.register("toggleCampusPlayout", toggleCampusPlayout)
 
 # Sources
-live = input.jack(id="live")
-jukebox = input.jack(id="jukebox")
+live = input.jack(id="liveOutput")
+jukebox = input.jack(id="liveJukebox")
 
 # High Quality Live Stream
 output.icecast(

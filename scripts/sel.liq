@@ -100,10 +100,10 @@ end
 
 
 # Sources
-studio1 = input.jack(id="studio1")
-studio2 = input.jack(id="studio2")
-jukebox = input.jack(id="jukebox")
-ob = input.jack(id="ob")
+studio1 = input.jack(id="selStudio1")
+studio2 = input.jack(id="selStudio2")
+jukebox = input.jack(id="selJukebox")
+ob = input.jack(id="selOB")
 
 # Selector Handlers
 
