@@ -87,10 +87,10 @@ end
 jukebox = on_metadata(trig_tracklist, jukebox)
 
 # Output to soundcards
-output.alsa(device="pcm.stereo1Out", jukebox, start=true)
+output.jack(id="jukebox", start=true, jukebox)
 
-# Icecast outputs use a seperate clock to remove lag from the ALSA output
-clock.assign_new(id="jukebox",
+# Icecast outputs use a seperate clock to remove lag from the HW output
+clock.assign_new(id="jukeboxStream",
 [output.icecast(
     %mp3(bitrate=192, samplerate=44100, stereo=true),
     host=icehost,

@@ -100,10 +100,10 @@ end
 
 
 # Sources
-studio1 = input.alsa(device="pcm.stereo0In")
-studio2 = input.alsa(device="pcm.stereo1In")
-jukebox = input.alsa(device="pcm.stereo4In")
-ob = input.alsa(device="pcm.stereo5In")
+studio1 = input.jack(id="studio1")
+studio2 = input.jack(id="studio2")
+jukebox = input.jack(id="jukebox")
+ob = input.jack(id="ob")
 
 # Selector Handlers
 
@@ -122,4 +122,4 @@ selector = amplify(2.0, selector)
 selector = on_blank(threshold=-38., max_blank=1., on_noise=blankEndHandler, blankHandler, selector)
 selector = on_blank(threshold=-38., max_blank=30., blankCritHandler, selector)
 
-output.alsa(device="pcm.stereo0Out", bufferize=false, fallible=true, selector)
+output.jack(id="selector", fallible=true, selector)

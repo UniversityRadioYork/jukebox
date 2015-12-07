@@ -1,4 +1,4 @@
+*.liq
+!scripts/*.liq
 *.conf
 playlists/
-sine.liq
-obsend.liq

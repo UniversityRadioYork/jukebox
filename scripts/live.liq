@@ -23,8 +23,8 @@ end
 server.register("toggleCampusPlayout", toggleCampusPlayout)
 
 # Sources
-live = input.alsa(device="pcm.stereo6In")
-jukebox = input.alsa(device="pcm.stereo4In")
+live = input.jack(id="live")
+jukebox = input.jack(id="jukebox")
 
 # High Quality Live Stream
 output.icecast(
