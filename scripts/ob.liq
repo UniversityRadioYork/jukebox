@@ -12,4 +12,4 @@ set("frame.audio.samplerate",48000)
 ob = input.http("http://icecast.ury.york.ac.uk:7070/OB-Line")
 #ob = single("say: This is OB.")
 
-output.jack(id="ob", fallible=true, ob)
+output.jack(id="ob", mksafe(ob))
