@@ -1,4 +1,4 @@
-%include "sel.conf"
+%include "../sel.conf"
 #
 # Streams for the Live output
 #

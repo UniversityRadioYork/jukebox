@@ -4,8 +4,8 @@
 # & Lloyd Wallis <flump5281@gmail.com>
 # & Andy Durant <andy@ajdurant.co.uk>
 # Launched on URY 2012-01-27 00:36
-%include "ice.conf"
-%include "jukebox.conf"
+%include "../ice.conf"
+%include "../jukebox.conf"
 
 set("log.stdout",true)
 set("log.level",3)

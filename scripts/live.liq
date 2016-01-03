@@ -1,4 +1,4 @@
-%include "ice.conf"
+%include "../ice.conf"
 #
 # Streams for the Live output
 #
