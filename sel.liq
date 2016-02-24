@@ -1,4 +1,6 @@
-%include "sel.conf"
+#!/usr/local/bin/liquidsoap -v
+
+%include "conf/sel.conf"
 #
 # Streams for the Live output
 #

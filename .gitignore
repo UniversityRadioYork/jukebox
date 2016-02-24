@@ -1,4 +1,2 @@
-*.liq
-!scripts/*.liq
-*.conf
+conf/*.conf
 playlists/

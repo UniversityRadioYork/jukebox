@@ -1,4 +1,6 @@
-%include "ice.conf"
+#!/usr/local/bin/liquidsoap -v
+
+%include "conf/ice.conf"
 #
 # Streams for the Live output
 #

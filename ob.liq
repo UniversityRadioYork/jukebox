@@ -1,3 +1,4 @@
+#!/usr/local/bin/liquidsoap -v
 
 set("log.stdout",true)
 set("log.level",3)

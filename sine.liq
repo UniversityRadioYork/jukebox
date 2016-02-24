@@ -1,3 +1,5 @@
+#!/usr/local/bin/liquidsoap -v
+
 input = sine()
 
 input = amplify(.2, input)
