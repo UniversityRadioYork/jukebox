@@ -121,7 +121,7 @@ selector = switch(
 
 selector = amplify(2.0, selector)
 
-selector = on_blank(threshold=-55., max_blank=1., on_noise=blankEndHandler, blankHandler, selector)
+selector = on_blank(threshold=-55., max_blank=2., min_noise=1., on_noise=blankEndHandler, blankHandler, selector)
 selector = on_blank(threshold=-55., max_blank=30., blankCritHandler, selector)
 
 output.jack(id="selector", fallible=true, selector)
