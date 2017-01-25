@@ -1,0 +1,5 @@
+obmount = 'OB-Line'
+status_file = '/tmp/ob_state.conf'
+email_state = 0
+obconnectscript = "scripts/ob_connect.sh"
+obdisconnectscript = "scripts/ob_disconnect.sh"

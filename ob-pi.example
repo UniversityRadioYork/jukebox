@@ -1,0 +1,93 @@
+%include "conf/ice.conf"
+
+set("log.stdout", true)
+set("log.level", 5)
+set("log.file", true)
+set("log.file.path", "/usr/local/var/log/liquidsoap/ob-pi.log")
+
+set("osc.port", 3658)
+
+source1 = input.gstreamer.audio(pipeline="udpsrc port=5054 caps=\"application/x-rtp\" ! queue ! rtpopusdepay ! opusdec")
+source1 = mksafe(source1)
+#source1 = amplify(osc.float("/1/fader1",1.), source1)
+
+source2 = input.gstreamer.audio(pipeline="udpsrc port=5055 caps=\"application/x-rtp\" ! queue ! rtpopusdepay ! opusdec")
+source2 = mksafe(source2)
+#source2 = amplify(osc.float("/1/fader2",1.), source2)
+
+source3 = input.gstreamer.audio(pipeline="udpsrc port=5056 caps=\"application/x-rtp\" ! queue ! rtpopusdepay ! opusdec")
+source3 = mksafe(source3)
+#source3 = amplify(osc.float("/1/fader3",1.), source3)
+
+source4 = input.gstreamer.audio(pipeline="udpsrc port=5057 caps=\"application/x-rtp\" ! queue ! rtpopusdepay ! opusdec")
+source4 = mksafe(source4)
+#source4 = amplify(osc.float("/1/fader3",1.), source4)
+
+
+source1ret = mksafe(add([source2, source3, source4]))
+output.gstreamer.audio(pipeline="audioconvert ! audioresample ! opusenc ! rtpopuspay ! queue ! udpsink host=10.64.160.54 port=1351", clock_safe=false, source1ret)
+
+source2ret = mksafe(add([source1, source3, source4]))
+output.gstreamer.audio(pipeline="audioconvert ! audioresample ! opusenc ! rtpopuspay ! queue ! udpsink host=10.64.160.55 port=1351", clock_safe=false, source2ret)
+
+source3ret = mksafe(add([source1, source2, source4]))
+output.gstreamer.audio(pipeline="audioconvert ! audioresample ! opusenc ! rtpopuspay ! queue ! udpsink host=10.64.160.56 port=1351", clock_safe=false, source3ret)
+
+source4ret = mksafe(add([source1, source2, source3]))
+output.gstreamer.audio(pipeline="audioconvert ! audioresample ! opusenc ! rtpopuspay ! queue ! udpsink host=10.64.160.57 port=1351", clock_safe=false, source4ret)
+
+ob = add([source1, source2, source3, source4])
+
+output.alsa(ob, start=true)
+
+output.icecast(
+                %mp3(bitrate=192, samplerate=44100, stereo=true),
+                host=icehost,
+                port=iceport,
+                password=icepass,
+                mount="roses1",
+                start=true,
+                url="http://ury.org.uk/roses",
+                description="Live Commentary from Roses 2015",
+                name="Roses Commentary Stream 1",
+                genre="Student Radio",
+                source1)
+
+output.icecast(
+                %mp3(bitrate=192, samplerate=44100, stereo=true),
+                host=icehost,
+                port=iceport,
+                password=icepass,
+                mount="roses2",
+                start=true,
+                url="http://ury.org.uk/roses",
+                description="Live Commentary from Roses 2015",
+                name="Roses Commentary Stream 2",
+                genre="Student Radio",
+                source2)
+
+output.icecast(
+                %mp3(bitrate=192, samplerate=44100, stereo=true),
+                host=icehost,
+                port=iceport,
+                password=icepass,
+                mount="roses3",
+                start=true,
+                url="http://ury.org.uk/roses",
+                description="Live Commentary from Roses 2015",
+                name="Roses Commentary Stream 3",
+                genre="Student Radio",
+                source3)
+
+output.icecast(
+                %mp3(bitrate=192, samplerate=44100, stereo=true),
+                host=icehost,
+                port=iceport,
+                password=icepass,
+                mount="roses4",
+                start=true,
+                url="http://ury.org.uk/roses",
+                description="Live Commentary from Roses 2015",
+                name="Roses Commentary Stream 4",
+                genre="Student Radio",
+                source4)
