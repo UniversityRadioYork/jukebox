@@ -45,10 +45,7 @@ playlists = switch([({23h-4h}, playlists_night), ({4h-23h}, playlists_day)])
 
 def myradio_sched() =
     # Get the first line of the response
-    result =
-        list.hd(
-            get_process_lines(sched_script)
-        )
+    result = list.hd(default="", get_process_lines(sched_script))
     # Create and return a request using this result
     request.create(result)
 end
