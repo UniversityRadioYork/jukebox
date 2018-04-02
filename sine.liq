@@ -2,7 +2,7 @@
 
 input = sine()
 
-input = amplify(.2, input)
+input = amplify(.15, input)
 
 # Output to soundcards
 output.jack(id="sine", start=true, input)
