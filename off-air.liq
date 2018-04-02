@@ -4,9 +4,6 @@
 # Off Air Loop script by Matthew Stratford <matthew.stratford@ury.org.uk>
 # Launched on URY Tue 27-03-2018
 
-%include "conf/ice.conf"
-%include "conf/jukebox.conf"
-
 set("log.stdout",true)
 set("log.level",3)
 #set("server.telnet.bind_addr", telnetaddr)
