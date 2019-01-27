@@ -19,10 +19,15 @@ set("osc.port", 8000)
 set("frame.audio.channels",2)
 set("frame.audio.samplerate",48000)
 
-# Selector bools
+# Selector sources (sel num)
+# Studio1 (1), Studio2 (2), Jukebox (3), OB (4), Sine (7), Off-Air (8)
+# Default to Off Air when starting Liq.
 S1 = ref false
 S2 = ref false
+JB = ref false
 OB = ref false
+SI = ref false
+OF = ref true
 
 # Functions for reading Selector bools
 def onS1 () =
@@ -34,32 +39,71 @@ end
 def onOB () =
     !OB
 end
+def onJB () = 
+    !JB
+end
+def onSI () =
+    !SI
+end
+def onOF () =
+    !OF
+end
 
 # Function for changing selector bools
 # - returns string for telnet use as this is required
-def selJB (_) =
-    S1 := false
-    S2 := false
-    OB := false
-    "Jukebox Selected"
-end
 def selS1 (_) =
     S1 := true
     S2 := false
+    JB := false
     OB := false
+    SI := false
+    OF := false
     "Studio 1 Selected"
 end
 def selS2 (_) =
     S1 := false
     S2 := true
+    JB := false
     OB := false
+    SI := false
+    OF := false
     "Studio 2 Selected"
+end
+def selJB (_) =
+    S1 := false
+    S2 := false
+    JB := true
+    OB := false
+    SI := false
+    OF := false
+    "Jukebox Selected"
 end
 def selOB (_) =
     S1 := false
     S2 := false
+    JB := false
     OB := true
+    SI := false
+    OF := false
     "OB Stream Selected"
+end
+def selSI (_) =
+    S1 := false
+    S2 := false
+    JB := false
+    OB := false
+    SI := true
+    OF := false
+    "Sine Wave Selected"
+end
+def selOF (_) = 
+    S1 := false
+    S2 := false
+    JB := false
+    OB := false
+    SI := false
+    OF := true
+    "Off Air Selected"
 end
 
 # Enable selector functions on telnet
@@ -67,19 +111,25 @@ server.register("selJB", selJB)
 server.register("selS1", selS1)
 server.register("selS2", selS2)
 server.register("selOB", selOB)
+server.register("selSI", selSI)
+server.register("selOF", selOF)
 
 # OSC Function
 # - take string and run selection based on that
 # - ignore() turns function returning string to unit
 def sel(s) =
-    if s == "JB" then
-        ignore(selJB())
-    elsif s == "S1" then
+    if s == "S1" then
         ignore(selS1())
     elsif s == "S2" then
         ignore(selS2())
+    elsif s == "JB" then
+        ignore(selJB())
     elsif s == "OB" then
         ignore(selOB())
+    elsif s == "SI" then
+        ignore(selSI())
+    elsif s == "OF" then
+	ignore(selOF())
     end
 end
 
@@ -120,6 +170,8 @@ studio1 = input.jack(id="selStudio1")
 studio2 = input.jack(id="selStudio2")
 jukebox = input.jack(id="selJukebox")
 ob = input.jack(id="selOB")
+sine = input.jack(id="selSine")
+offair = input.jack(id="selOffAir")
 
 # Selector Handlers
 
@@ -129,13 +181,17 @@ selector = switch(
         crossswitch,
         crossswitch,
         crossswitch,
-        crossswitch
+        crossswitch,
+	crossswitch,
+	crossswitch
     ],
     [
         (onS1, studio1),
         (onS2, studio2),
+        (onJB, jukebox),
         (onOB, ob),
-        ({true}, jukebox)
+	(onSI, sine),
+	(onOF, offair)
     ]
 )
 
