@@ -4,7 +4,6 @@
 #
 # Streams for the Live output
 #
-set("init.daemon.pidfile.path", "/usr/local/var/run/liquidsoap/live.pid")
 set("log.level",3)
 set("log.stdout", true)
 set("log.file", true)
@@ -26,7 +25,7 @@ end
 server.register("toggleCampusPlayout", toggleCampusPlayout)
 
 # Sources
-live = mksafe(input.jack(id="drunk"))
+live = input.jack(id="liveOutput")
 live = amplify(2.25, live)
 
 jukebox = input.jack(id="liveJukebox")
@@ -34,7 +33,7 @@ jukebox = input.jack(id="liveJukebox")
 
 # High Quality Live Stream
 output.icecast(
-    %mp3(bitrate=192),
+    %mp3(bitrate=192, samplerate=44100, stereo=true),
     host=icehost,
     port=iceport,
     password=icepass,
@@ -48,7 +47,7 @@ output.icecast(
 
 # High Quality Live Stream (ogg)
 output.icecast(
-    %vorbis.cbr(bitrate=128),
+    %vorbis.cbr(samplerate=44100, channels=2, bitrate=128),
     host=icehost,
     port=iceport,
     password=icepass,
@@ -63,7 +62,7 @@ output.icecast(
 
 # Mobile Live Stream
 output.icecast(
-    %mp3(bitrate=48, samplerate=44100, stereo=false),
+    %mp3(bitrate=48, samplerate=44100, stereo=true),
     host=icehost,
     port=iceport,
     password=icepass,
@@ -73,7 +72,7 @@ output.icecast(
     description=description,
     name="#{name} - Mobile",
     genre="Student Radio",
-    mean(live)) #Mean the two channels together to make mono
+    live)
 
 # Campus Playout Stream
 campus_playout = mksafe(
@@ -87,7 +86,7 @@ campus_playout = mksafe(
 )
 
 output.icecast(
-    %mp3(bitrate=192),
+    %mp3(bitrate=192, samplerate=44100, stereo=true),
     host=icehost,
     port=iceport,
     password=icepass,

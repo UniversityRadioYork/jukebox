@@ -1,9 +1,11 @@
 #!/usr/local/bin/liquidsoap -v
 
 %include "conf/sel.conf"
+%include "conf/ice.conf"
 #
 # Streams for the Live output
 #
+set("init.daemon.pidfile.path", "/usr/local/var/run/liquidsoap/sel.pid")
 set("log.level",3)
 set("log.stdout", true)
 set("log.file", true)
@@ -142,7 +144,7 @@ def crossswitch(a,b)
         normalize=false,
         [
             sequence([
-                    blank(duration=.1),
+                    #blank(duration=.1),
                     fade.initial(duration=.2,b)
             ]),
             fade.final(duration=.2,a)
@@ -195,9 +197,45 @@ selector = switch(
     ]
 )
 
-selector = amplify(2.0, selector)
+selector = amplify(0.85, selector)
 
 selector = on_blank(threshold=-55., max_blank=2., min_noise=1., on_noise=blankEndHandler, blankHandler, selector)
 selector = on_blank(threshold=-55., max_blank=30., blankCritHandler, selector)
 
-output.jack(id="selector", fallible=true, selector)
+selector = mksafe(selector)
+
+output.jack(id="selector", selector)
+
+#clock.assign_new(id="studio1Stream",
+#    [
+  #  output.icecast(
+  #      %mp3(bitrate=192),
+  #      host=icehost,
+  #      port=iceport,
+  #      password=icepass,
+  #      mount="studio-red",
+  #      url=website,
+  #      description="Direct feed from Studio Red",
+  #      name="URY Studio Red",
+  #      genre="Student Radio",
+ ##       studio1
+ #   )
+    #]
+#)
+
+#clock.assign_new(id="studio2Stream",
+    #[
+  #  output.icecast(
+  #      %mp3(bitrate=192),
+  #      host=icehost,
+  #      port=iceport,
+  #      password=icepass,
+  #      mount="studio-blue",
+  #      url=website,
+  #      description="Direct feed from Studio Blue",
+  #      name="URY Studio Blue",
+   #     genre="Student Radio",
+ #       studio2
+#    )
+    #]
+#)
