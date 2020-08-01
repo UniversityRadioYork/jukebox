@@ -11,7 +11,11 @@ set("frame.audio.samplerate",48000)
 
 # Get OB Stream
 
-ob = input.http("http://icecast.ury.york.ac.uk:7070/OB-Line")
-#ob = single("say: This is OB.")
+ob = audio_to_stereo(input.http("http://icecast.ury.york.ac.uk:7070/OB-Line"))
+
+# Backup fallback
+ob_new = audio_to_stereo(input.http("http://urysteve.ury.york.ac.uk/OB-Line"))
+
+ob = mksafe(fallback([ob, ob_new]))
 
 output.jack(id="ob", mksafe(ob))
