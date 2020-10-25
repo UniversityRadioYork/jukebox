@@ -1,3 +1,5 @@
+sequencer_url = "http://server:port/request"
+
 [api settings]
 api_url = "https://SERVER_NAME/api/v2/iTones/trackforjukebox"
 api_key = "API_KEY"

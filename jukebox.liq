@@ -60,10 +60,12 @@ server.register("now_playing", get_now_playing)
 # Jingles every 15min~ish
 jingles = playlist(reload_mode="watch", "/jukebox/jingles")
 jingles = delay(900. , jingles)
+jingles = at({get_process_output(playjingles_script)=="true"}, jingles)
 
 # Campus Jukebox jingles every 30min
 cjjingle = playlist(mode="randomize", reload=3600, "/jukebox/cj-jingles")
 cjjingle = delay(1800., cjjingle)
+cjjingles = at({get_process_output(playjingles_script)=="true"}, cjjingles)
 
 # Put all the pieces together
 jukebox = fallback([cjjingle, jingles, requests, main, backup_playlist], replay_metadata = false)
