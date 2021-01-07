@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 
 $config = parse_ini_file(__DIR__ . "/../conf/jukebox_jingles.ini");

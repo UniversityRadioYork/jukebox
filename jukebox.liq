@@ -65,7 +65,7 @@ jingles = at({get_process_output(playjingles_script)=="true"}, jingles)
 # Campus Jukebox jingles every 30min
 cjjingle = playlist(mode="randomize", reload=3600, "/jukebox/cj-jingles")
 cjjingle = delay(1800., cjjingle)
-cjjingles = at({get_process_output(playjingles_script)=="true"}, cjjingles)
+cjjingle = at({get_process_output(playjingles_script)=="true"}, cjjingle)
 
 # Put all the pieces together
 jukebox = fallback([cjjingle, jingles, requests, main, backup_playlist], replay_metadata = false)

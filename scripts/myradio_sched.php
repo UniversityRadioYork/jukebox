@@ -16,7 +16,7 @@ if ($obj && $obj->status == "OK") {
         $trackid = $obj->payload->trackid; // 12345
         $recordid = $obj->payload->album->recordid;
 
-        echo "annotate:trackid=\"" . $recordid . "\":replay_gain:/music/records/" . $recordid . "/" . $trackid . ".mp3";
+        echo "annotate:recordid=\"" . $recordid . "\",trackid=\"" . $trackid . "\":replay_gain:/music/records/" . $recordid . "/" . $trackid . ".mp3";
     }
 } else {
     // Ask MyRadio Directly
@@ -25,7 +25,7 @@ if ($obj && $obj->status == "OK") {
     $trackid = $obj->payload->trackid; // 12345
     $recordid = $obj->payload->album->recordid;
 
-    echo "annotate:trackid=\"" . $recordid . "\":replay_gain:/music/records/" . $recordid . "/" . $trackid . ".mp3";
+    echo "annotate:recordid=\"" . $recordid . "\",trackid=\"" . $trackid . "\":replay_gain:/music/records/" . $recordid . "/" . $trackid . ".mp3";
 }
 
 $time_end = microtime(true);
