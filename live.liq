@@ -27,7 +27,7 @@ server.register("toggleCampusPlayout", toggleCampusPlayout)
 
 # Sources
 live = mksafe(input.jack(id="drunk"))
-live = amplify(2.25, live)
+live = amplify({ 2.0 }, live)
 
 jukebox = input.jack(id="liveJukebox")
 

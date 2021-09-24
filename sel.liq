@@ -21,6 +21,22 @@ set("osc.port", 8000)
 set("frame.audio.channels",2)
 set("frame.audio.samplerate",48000)
 
+def fade.final(~id="fade.final",~duration=3.,~type="lin",s) =
+  fn = mkfade(start=1.,stop=0.,type=type,duration=duration,s)
+  should_play = ref true
+
+  def fn() =
+    v = fn()
+    if v == 0. then
+      should_play := false
+    end
+    v
+  end
+
+  s = amplify(id=id,fn,s)
+  switch(track_sensitive=false,[({!should_play},s)])
+end
+
 # Selector sources (sel num)
 # Studio1 (1), Studio2 (2), Jukebox (3), OB (4), Sine (7), Off-Air (8)
 # Default to Off Air when starting Liq.
@@ -28,6 +44,7 @@ S1 = ref false
 S2 = ref false
 JB = ref false
 OB = ref false
+WS = ref false
 SI = ref false
 OF = ref true
 
@@ -41,8 +58,11 @@ end
 def onOB () =
     !OB
 end
-def onJB () = 
+def onJB () =
     !JB
+end
+def onWS () =
+    !WS
 end
 def onSI () =
     !SI
@@ -58,6 +78,7 @@ def selS1 (_) =
     S2 := false
     JB := false
     OB := false
+    WS := false
     SI := false
     OF := false
     "Studio 1 Selected"
@@ -67,6 +88,7 @@ def selS2 (_) =
     S2 := true
     JB := false
     OB := false
+    WS := false
     SI := false
     OF := false
     "Studio 2 Selected"
@@ -76,6 +98,7 @@ def selJB (_) =
     S2 := false
     JB := true
     OB := false
+    WS := false
     SI := false
     OF := false
     "Jukebox Selected"
@@ -85,24 +108,37 @@ def selOB (_) =
     S2 := false
     JB := false
     OB := true
+    WS := false
     SI := false
     OF := false
     "OB Stream Selected"
+end
+def selWS (_) =
+    S1 := false
+    S2 := false
+    JB := false
+    OB := false
+    WS := true
+    SI := false
+    OF := false
+    "WebStudio Stream Selected"
 end
 def selSI (_) =
     S1 := false
     S2 := false
     JB := false
     OB := false
+    WS := false
     SI := true
     OF := false
     "Sine Wave Selected"
 end
-def selOF (_) = 
+def selOF (_) =
     S1 := false
     S2 := false
     JB := false
     OB := false
+    WS := false
     SI := false
     OF := true
     "Off Air Selected"
@@ -113,6 +149,7 @@ server.register("selJB", selJB)
 server.register("selS1", selS1)
 server.register("selS2", selS2)
 server.register("selOB", selOB)
+server.register("selWS", selWS)
 server.register("selSI", selSI)
 server.register("selOF", selOF)
 
@@ -128,10 +165,12 @@ def sel(s) =
         ignore(selJB())
     elsif s == "OB" then
         ignore(selOB())
+    elsif s == "WS" then
+        ignore(selWS())
     elsif s == "SI" then
         ignore(selSI())
     elsif s == "OF" then
-	ignore(selOF())
+	    ignore(selOF())
     end
 end
 
@@ -140,16 +179,27 @@ osc.on_string("/sel", sel)
 
 # A simple cross-fade for transitions
 def crossswitch(a,b)
-    add(
-        normalize=false,
-        [
-            sequence([
-                    #blank(duration=.1),
-                    fade.initial(duration=.2,b)
-            ]),
-            fade.final(duration=.2,a)
+    #old = fade.final(duration=2.5,a) #.2
+    #new = fade.initial(duration=2.5,b), #.2
+    #add(normalize=false, [sequence([old,new]);
+    #    add(
+    #        normalize=false,
+    #        [
+    #            #sequence([
+    #                    #blank(duration=2.5),
+    #                    #fade.in(duration=5.0,b),
+    #            #]),
+    #
+    #            fade.out(duration=2.5,a),
+    #          fade.in(duration=2.5,b)
+    #        ]
+    #    )
+    add(normalize=false,
+        [ fade.final(duration=4.,a), sequence([ blank(duration=2.),
+            fade.initial(duration=2.,b) ])
         ]
     )
+    # fade.final(duration=5.,type="wow",a) ])
 end
 
 
@@ -170,8 +220,10 @@ end
 # Sources
 studio1 = input.jack(id="selStudio1")
 studio2 = input.jack(id="selStudio2")
-jukebox = input.jack(id="selJukebox")
-ob = input.jack(id="selOB")
+# Try to make jukebox<-> studio transitions perfect
+jukebox = buffer(buffer=0.1,max=0.1,input.jack(id="selJukebox"))
+ob = buffer(buffer=0.1,max=0.1,input.jack(id="selOB"))
+webstudio = buffer(buffer=0.1,max=0.1,input.jack(id="selWS"))
 sine = input.jack(id="selSine")
 offair = input.jack(id="selOffAir")
 
@@ -192,8 +244,9 @@ selector = switch(
         (onS2, studio2),
         (onJB, jukebox),
         (onOB, ob),
-	(onSI, sine),
-	(onOF, offair)
+        (onWS, webstudio),
+        (onSI, sine),
+        (onOF, offair)
     ]
 )
 
@@ -204,38 +257,4 @@ selector = on_blank(threshold=-55., max_blank=30., blankCritHandler, selector)
 
 selector = mksafe(selector)
 
-output.jack(id="selector", selector)
-
-#clock.assign_new(id="studio1Stream",
-#    [
-  #  output.icecast(
-  #      %mp3(bitrate=192),
-  #      host=icehost,
-  #      port=iceport,
-  #      password=icepass,
-  #      mount="studio-red",
-  #      url=website,
-  #      description="Direct feed from Studio Red",
-  #      name="URY Studio Red",
-  #      genre="Student Radio",
- ##       studio1
- #   )
-    #]
-#)
-
-#clock.assign_new(id="studio2Stream",
-    #[
-  #  output.icecast(
-  #      %mp3(bitrate=192),
-  #      host=icehost,
-  #      port=iceport,
-  #      password=icepass,
-  #      mount="studio-blue",
-  #      url=website,
-  #      description="Direct feed from Studio Blue",
-  #      name="URY Studio Blue",
-   #     genre="Student Radio",
- #       studio2
-#    )
-    #]
-#)
+output.jack(id="selector", start=true, selector)

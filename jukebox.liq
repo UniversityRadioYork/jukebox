@@ -10,7 +10,7 @@
 
 set("init.daemon.pidfile.path", "/usr/local/var/run/liquidsoap/jukebox.pid")
 set("log.stdout",true)
-set("log.level",5)
+set("log.level",4)
 set("server.telnet.bind_addr", telnetaddr)
 set("server.telnet", true)
 set("log.file", true)
@@ -18,6 +18,8 @@ set("log.file.path","/usr/local/var/log/liquidsoap/jukebox.log")
 set("frame.audio.channels",2)
 set("frame.audio.samplerate",48000)
 #set("audio.converter.samplerate.libsamplerate.quality","best")
+set("protocol.ffmpeg.replaygain",true)
+enable_replaygain_metadata()
 
 
 # Local file if music filestore isn't
@@ -44,7 +46,22 @@ end
 
 # The default track scheduler - obeys licence requirements
 # and other funsies.
-main = request.dynamic(id="jukebox_main", myradio_sched, timeout=15.0, conservative=true)
+main = request.dynamic(id="jukebox_main", myradio_sched, timeout=15.0, conservative=false)
+
+def on_metadata_cb(meta)
+    log("on_metadata thinks now playing is " ^ meta["trackid"])
+end
+main = on_metadata(on_metadata_cb, main)
+
+def on_offset_cb(_, meta)
+    log("on_offset(1) thinks now playing is " ^ meta["trackid"])
+end
+main = on_offset(offset=1.0, on_offset_cb, main)
+
+def on_track_cb(meta)
+    log("on_track thinks now playing is " ^ meta["trackid"])
+end
+main = on_track(on_track_cb, main)
 
 now_playing_id = ref ""
 def update_now_playing(meta)
@@ -59,7 +76,7 @@ server.register("now_playing", get_now_playing)
 
 # Jingles every 15min~ish
 jingles = playlist(reload_mode="watch", "/jukebox/jingles")
-jingles = delay(900. , jingles)
+jingles = delay(720. , jingles)
 jingles = at({get_process_output(playjingles_script)=="true"}, jingles)
 
 # Campus Jukebox jingles every 30min
@@ -90,7 +107,7 @@ def trig_tracklist(j) =
 end
 jukebox = on_metadata(trig_tracklist, jukebox)
 
-# Force Liq to separate Icecast metadata. 
+# Force Liq to separate Icecast metadata.
 def update_meta(m) =
 	title = m["title"]
 	artist = m["artist"]
