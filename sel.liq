@@ -205,37 +205,3 @@ selector = on_blank(threshold=-55., max_blank=30., blankCritHandler, selector)
 selector = mksafe(selector)
 
 output.jack(id="selector", selector)
-
-#clock.assign_new(id="studio1Stream",
-#    [
-  #  output.icecast(
-  #      %mp3(bitrate=192),
-  #      host=icehost,
-  #      port=iceport,
-  #      password=icepass,
-  #      mount="studio-red",
-  #      url=website,
-  #      description="Direct feed from Studio Red",
-  #      name="URY Studio Red",
-  #      genre="Student Radio",
- ##       studio1
- #   )
-    #]
-#)
-
-#clock.assign_new(id="studio2Stream",
-    #[
-  #  output.icecast(
-  #      %mp3(bitrate=192),
-  #      host=icehost,
-  #      port=iceport,
-  #      password=icepass,
-  #      mount="studio-blue",
-  #      url=website,
-  #      description="Direct feed from Studio Blue",
-  #      name="URY Studio Blue",
-   #     genre="Student Radio",
- #       studio2
-#    )
-    #]
-#)
