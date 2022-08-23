@@ -4,6 +4,7 @@
 #
 # Streams for the Live output
 #
+set("init.daemon.pidfile.path", "/usr/local/var/run/liquidsoap/live.pid")
 set("log.level",3)
 set("log.stdout", true)
 set("log.file", true)
@@ -26,11 +27,14 @@ server.register("toggleCampusPlayout", toggleCampusPlayout)
 
 # Sources
 live = input.jack(id="liveOutput")
+
 jukebox = input.jack(id="liveJukebox")
+
+live = amplify({ 2.0 }, live)
 
 # High Quality Live Stream
 output.icecast(
-    %mp3(bitrate=192, samplerate=44100, stereo=true),
+    %mp3(bitrate=192),
     host=icehost,
     port=iceport,
     password=icepass,
@@ -44,7 +48,7 @@ output.icecast(
 
 # High Quality Live Stream (ogg)
 output.icecast(
-    %vorbis.cbr(samplerate=44100, channels=2, bitrate=128),
+    %vorbis.cbr(bitrate=128),
     host=icehost,
     port=iceport,
     password=icepass,
@@ -59,7 +63,7 @@ output.icecast(
 
 # Mobile Live Stream
 output.icecast(
-    %mp3(bitrate=48, samplerate=44100, stereo=true),
+    %mp3(bitrate=48, samplerate=44100, stereo=false),
     host=icehost,
     port=iceport,
     password=icepass,
@@ -69,7 +73,60 @@ output.icecast(
     description=description,
     name="#{name} - Mobile",
     genre="Student Radio",
-    live)
+    mean(live)) #Mean the two channels together to make mono
+
+# HLS stream
+#hls_low = %fdkaac(
+#	channels=2,
+#	bandwidth="auto",
+#	bitrate=48,
+#	afterburner=true,
+#	aot="mpeg4_he_aac_v2",
+#	transmux="adif"
+#)
+
+#hls_med = %fdkaac(
+#	channels=2,
+#	bandwidth="auto",
+#	bitrate=96,
+#	afterburner=true,
+#	aot="mpeg4_aac_lc",
+#	transmux="adts"
+#)
+
+#hls_hi = %fdkaac(
+#	channels=2,
+#	bandwidth="auto",
+#	bitrate=192,
+#	afterburner=true,
+#	aot="mpeg4_aac_lc",
+#	transmux="adts"
+#)
+
+#streams = [
+#	("aac_low", hls_low),
+#	("aac_med", hls_med),
+#	("aac_hi", hls_hi)
+#]
+
+#def segment_name(~position,~extname,stream_name) =
+#  timestamp = int_of_float(gettimeofday())
+#  duration = 2
+#  "#{stream_name}_#{duration}_#{timestamp}_#{position}.#{extname}"
+#end
+
+#output.file.hls(
+#	playlist="live.m3u8",
+#	segment_duration=2.0,
+#	segments=5,
+#	segments_overhead=10,
+#	segment_name=segment_name,
+#	persist=true,
+#	persist_at="/usr/local/share/liquidsoap/hls/state.config",
+#	"/usr/share/icecast2/web/live-hls",
+#	streams,
+#	live
+#)
 
 # Campus Playout Stream
 campus_playout = mksafe(
@@ -83,7 +140,7 @@ campus_playout = mksafe(
 )
 
 output.icecast(
-    %mp3(bitrate=192, samplerate=44100, stereo=true),
+    %mp3(bitrate=192),
     host=icehost,
     port=iceport,
     password=icepass,
