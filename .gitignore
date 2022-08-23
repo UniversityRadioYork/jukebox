@@ -1,2 +1,18 @@
 conf/*.conf
+conf/*.ini
+conf/*.json
+conf/*.liq
+conf/instances/*.json
 playlists/
+archive
+scripts/*.wav
+scripts/*.mp3
+scripts/env
+scripts/thonkyBoi
+
+# Other Scripts Not Included in Git Repo at the Moment
+# scripts/autoNews.py
+# scripts/dishy_boi.sh
+# scripts/fm_streamer.sh
+# scripts/stateserver.py
+# scripts/webStudioSwitcher.py

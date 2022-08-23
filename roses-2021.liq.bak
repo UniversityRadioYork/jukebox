@@ -1,0 +1,115 @@
+#!/usr/local/bin/liquidsoap -v
+
+%include "/usr/local/etc/liquidsoap/conf/ice.conf"
+# Selecting a main roses stream
+
+set('server.telnet', true)
+set('server.telnet.port', 1369)
+set("server.telnet.bind_addr", "144.32.64.170")
+
+S1 = ref true
+S2 = ref false
+S3 = ref false
+S4 = ref false
+
+def onS1 () =
+    !S1
+end
+def onS2 () =
+    !S2
+end
+def onS3 () =
+    !S3
+end
+def onS4 () =
+    !S4
+end
+
+def selS1 (_) = 
+    S1 := true
+    S2 := false
+    S3 := false
+    S4 := false
+    "Stream 1 Selected"
+end
+def selS2 (_) = 
+    S1 := false
+    S2 := true
+    S3 := false
+    S4 := false
+    "Stream 2 Selected"
+end
+def selS3 (_) = 
+    S1 := false
+    S2 := false
+    S3 := true
+    S4 := false
+    "Stream 3 Selected"
+end
+def selS4 (_) = 
+    S1 := false
+    S2 := false
+    S3 := false
+    S4 := true
+    "Stream 4 Selected"
+end
+
+server.register("stream1", selS1)
+server.register("stream2", selS2)
+server.register("stream3", selS3)
+server.register("stream4", selS4)
+
+# A simple cross-fade for transitions
+def crossswitch(a,b)
+    add(
+        normalize=false,
+        [
+            sequence([
+                    fade.initial(duration=.2,b)
+            ]),
+            fade.final(duration=.2,a)
+        ]
+    )
+end
+
+stream1 = mksafe(audio_to_stereo(input.http("http://audio.ury.org.uk/Roses1",buffer=5.,max=120.)))
+stream2 = mksafe(audio_to_stereo(input.http("http://audio.ury.org.uk/Roses2",buffer=5.,max=120.)))
+stream3 = mksafe(audio_to_stereo(input.http("http://audio.ury.org.uk/Roses3",buffer=5.,max=120.)))
+stream4 = mksafe(audio_to_stereo(input.http("http://audio.ury.org.uk/Roses4",buffer=5.,max=120.)))
+
+selector = switch(
+    track_sensitive=false,
+    transitions=[
+        crossswitch,
+        crossswitch,
+        crossswitch,
+        crossswitch
+    ],
+    [
+        (onS1, stream1),
+        (onS2, stream2),
+        (onS3, stream3),
+        (onS4, stream4)
+    ]
+)
+
+selector = amplify(0.85, selector)
+selector = mksafe(selector)
+
+output.dummy(fallible=true, stream1)
+output.dummy(fallible=true, stream2)
+output.dummy(fallible=true, stream3)
+output.dummy(fallible=true, stream4)
+
+output.icecast(
+    %mp3(bitrate=192),
+    host=icehost,
+    port=iceport,
+    password=icepass,
+    mount="OB-Line",
+    start=true,
+    url=website,
+    description=description,
+    name="Roses Main Stream",
+    genre="Student Radio",
+    selector)
