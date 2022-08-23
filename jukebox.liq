@@ -21,6 +21,7 @@ set("frame.audio.samplerate",48000)
 set("protocol.ffmpeg.replaygain",true)
 enable_replaygain_metadata()
 
+
 # Local file if music filestore isn't
 interludelong = mksafe(single("/jukebox/intermission-long.mp3"))
 interludelong = crossfade(duration=2., fade_in=1.2, fade_out=1.2, interludelong)
@@ -123,7 +124,7 @@ jukebox = on_metadata(trig_tracklist, jukebox)
 #jukebox = on_offset(force=true, offset=3.0, trig_tracklist, jukebox)
 #jukebox = on_track(trig_tracklist, jukebox)
 
-# Force Liq to separate Icecast metadata. 
+# Force Liq to separate Icecast metadata.
 def update_meta(m) =
 	title = m["title"]
 	artist = m["artist"]

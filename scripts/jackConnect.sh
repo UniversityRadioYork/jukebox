@@ -87,6 +87,12 @@ jack_connect system:capture_18 news2:in_1
 #jack_connect webstudio:out_0 selWS:in_0
 #jack_connect webstudio:out_1 selWS:in_1
 
+# Commented out for new routes below
+#jack_connect webstudio:out_0 directWebStudio:in_0
+#jack_connect webstudio:out_1 directWebStudio:in_1
+#jack_connect webstudio:out_0 selWS:in_0
+#jack_connect webstudio:out_1 selWS:in_1
+
 # New Routes for WS+AutoNews
 jack_connect webstudio:out_0 wspreanews:in_0
 jack_connect webstudio:out_1 wspreanews:in_1
