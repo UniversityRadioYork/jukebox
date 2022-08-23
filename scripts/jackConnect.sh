@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/bin/sh
 #the capture inputs go scarlett Analogue 1-8 in, SPDIF 1-2 in, ADAT 1-8 mstratford-2019
 # playbacks go Analogue 1-10 out, spdif 1-2 out, ADAT 1-8 out.

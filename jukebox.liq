@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/local/bin/liquidsoap -v
 
 # Coded by Gareth Lloyd <gareth@ignition-web.co.uk>

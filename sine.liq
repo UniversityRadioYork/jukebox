@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/local/bin/liquidsoap -v
 
 set("init.daemon.pidfile.path", "/usr/local/var/run/liquidsoap/sine.pid")

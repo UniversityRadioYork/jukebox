@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/bin/sh
 eval `dbus-launch --auto-syntax`
 export DBUS_SESSION_BUS_PID DBUS_SESSION_BUS_ADDRESS

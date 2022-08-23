@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/bin/sh
 #sudo -u liquidsoap ./jackStart.sh &
 #/usr/local/etc/liquidsoap/scripts/jackStart.sh &
