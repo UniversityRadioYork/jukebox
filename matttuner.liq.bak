@@ -1,0 +1,33 @@
+#!/usr/local/bin/liquidsoap -v
+
+%include "conf/ice.conf"
+#
+# Temporary
+#
+set("init.daemon.pidfile.path", "/usr/local/var/run/liquidsoap/studios.pid")
+set("log.level",3)
+set("log.stdout", true)
+set("log.file", true)
+set('log.file.path', '/usr/local/var/log/liquidsoap/studios.log')
+
+set("frame.audio.channels",2)
+set("frame.audio.samplerate",48000)
+
+# Sources
+fmoffair = input.jack(id="fmoffair")
+fmoffair = amplify({ 2.0 },fmoffair)
+
+output.icecast(
+        %mp3(bitrate=192),
+        host=icehost,
+        port=iceport,
+        password=icepass,
+        mount="fm",
+        url=website,
+        description="Direct feed from Off-Air Fm Tuner " ^ description,
+        name="URY FM | " ^ name,
+        genre="Student Radio",
+        start=true,
+        mksafe(buffer(fmoffair))
+    )
+

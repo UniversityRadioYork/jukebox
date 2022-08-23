@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 telnetaddr = "127.0.0.1"
 sched_script = "/path/to/scheduler/script"
 tracklist_script = "/path/to/tracklist/script"

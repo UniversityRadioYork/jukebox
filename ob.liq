@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/local/bin/liquidsoap -v
 
 set("init.daemon.pidfile.path", "/usr/local/var/run/liquidsoap/ob.pid")
@@ -11,9 +12,9 @@ set("frame.audio.samplerate",48000)
 
 # Get OB Stream
 
-ob = audio_to_stereo(input.http("http://icecast.ury.york.ac.uk:7070/OB-Line"))
+ob = audio_to_stereo(input.http("http://dolby.ury.york.ac.uk:7070/OB-Line"))
 
-# Backup fallback
+# Benjamin Ballenson's fuckery
 ob_new = audio_to_stereo(input.http("http://urysteve.ury.york.ac.uk/OB-Line"))
 
 ob = mksafe(fallback([ob, ob_new]))

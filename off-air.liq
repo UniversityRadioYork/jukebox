@@ -10,6 +10,9 @@ set("log.level",3)
 set("log.file", true)
 set("log.file.path","/usr/local/var/log/liquidsoap/off-air.log")
 
+set("frame.audio.channels",2)
+set("frame.audio.samplerate",48000)
+
 # That loop that is ever so catchy, right?!
 offlineLoop = mksafe(single("/jukebox/offlineLoop.wav"))
 
@@ -36,12 +39,12 @@ def crossswitch(a,b)
 end
 
 # Put all the pieces together
-offair = fallback(transitions=[crossswitch],[jingles, offlineLoop])
+offair = fallback([jingles, offlineLoop])
 
 # Avoid too much blank/silence between jingles and offline loop.
 offair = skip_blank(max_blank=1., offair)
 
-offair = amplify(0.3, offair)
+offair = amplify(0.4, offair)
 
 # Output to soundcards
 output.jack(id="offair", start=true, offair)

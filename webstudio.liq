@@ -1,8 +1,9 @@
 #!/usr/local/bin/liquidsoap -v
 
-
 %include "conf/ice.conf"
-
+#
+# Streams for the Live output
+#
 set("init.daemon.pidfile.path", "/usr/local/var/run/liquidsoap/webstudio.pid")
 set("log.level",3)
 set("log.stdout", true)
