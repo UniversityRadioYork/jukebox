@@ -2,7 +2,6 @@
 #!/usr/local/bin/liquidsoap -v
 
 %include "conf/sel.conf"
-%include "conf/ice.conf"
 #%include "conf/ice.conf"
 #
 # Streams for the Live output
@@ -61,7 +60,7 @@ end
 def onOB () =
     !OB
 end
-def onJB () =
+def onJB () = 
     !JB
 end
 def onWS () =
@@ -136,7 +135,7 @@ def selSI (_) =
     OF := false
     "Sine Wave Selected"
 end
-def selOF (_) =
+def selOF (_) = 
     S1 := false
     S2 := false
     JB := false
@@ -173,7 +172,7 @@ def sel(s) =
     elsif s == "SI" then
         ignore(selSI())
     elsif s == "OF" then
-	    ignore(selOF())
+	ignore(selOF())
     end
 end
 
@@ -185,24 +184,24 @@ def crossswitch(a,b)
     #old = fade.final(duration=2.5,a) #.2
     #new = fade.initial(duration=2.5,b), #.2
     #add(normalize=false, [sequence([old,new]);
-    #    add(
-    #        normalize=false,
-    #        [
-    #            #sequence([
-    #                    #blank(duration=2.5),
-    #                    #fade.in(duration=5.0,b),
-    #            #]),
-    #
-    #            fade.out(duration=2.5,a),
-    #          fade.in(duration=2.5,b)
-    #        ]
-    #    )
-    add(normalize=false,
-        [ fade.final(duration=4.,a), sequence([ blank(duration=2.),
-            fade.initial(duration=2.,b) ])
-        ]
-    )
-    # fade.final(duration=5.,type="wow",a) ])
+#    add(
+#        normalize=false,
+#        [
+#            #sequence([
+#                    #blank(duration=2.5),
+#                    #fade.in(duration=5.0,b),
+#            #]),
+#	    
+#            fade.out(duration=2.5,a),
+#	    fade.in(duration=2.5,b)
+#        ]
+#    )
+  add(normalize=false,
+	  [ fade.final(duration=4.,a), sequence([ blank(duration=2.),
+	               fade.initial(duration=2.,b) ])
+	  ]
+	)
+	   # fade.final(duration=5.,type="wow",a) ])
 end
 
 
@@ -227,6 +226,8 @@ studio2 = input.jack(id="selStudio2")
 jukebox = buffer(buffer=0.1,max=0.1,input.jack(id="selJukebox"))
 ob = buffer(buffer=0.1,max=0.1,input.jack(id="selOB"))
 webstudio = buffer(buffer=0.1,max=0.1,input.jack(id="selWS"))
+sine = input.jack(id="selSine")
+offair = input.jack(id="selOffAir")
 
 # Selector Handlers
 
@@ -234,13 +235,20 @@ selector = switch(
     track_sensitive=false,
     
     transitions=[
+    #     crossfade,
+    #     crossfade,
+    #     crossfade,
+    #     crossfade,
+    #     crossfade,
+    #     crossfade,
+    #     crossfade
         crossswitch,
         crossswitch,
         crossswitch,
         crossswitch,
-	    crossswitch,
-	    crossswitch,
-	    crossswitch
+        crossswitch,
+        crossswitch,
+        crossswitch
     ],
     [
         (onS1, studio1),
@@ -248,10 +256,15 @@ selector = switch(
         (onJB, jukebox),
         (onOB, ob),
         (onWS, webstudio),
-        (onSI, sine),
-        (onOF, offair)
+	(onSI, sine),
+	(onOF, offair)
     ]
 )
+
+# Auto News 2020 (moved to webstudio.liq)
+#autonews = input.jack(id="autonews")
+
+#selector = add([selector, mksafe(autonews)])
 
 selector = amplify(0.85, selector)
 

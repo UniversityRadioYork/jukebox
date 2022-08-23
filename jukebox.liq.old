@@ -21,7 +21,6 @@ set("frame.audio.samplerate",48000)
 set("protocol.ffmpeg.replaygain",true)
 enable_replaygain_metadata()
 
-
 # Local file if music filestore isn't
 interludelong = mksafe(single("/jukebox/intermission-long.mp3"))
 interludelong = crossfade(duration=2., fade_in=1.2, fade_out=1.2, interludelong)
@@ -84,13 +83,8 @@ cjjingle = playlist(mode="randomize", reload=3600, "/jukebox/cj-jingles")
 cjjingle = delay(1800., cjjingle)
 cjjingle = at({get_process_output(playjingles_script)=="true"}, cjjingle)
 
-#Interviews every so often I guess sorry future man
-interviews = playlist(mode="randomize", reload=3600, "jukebox/interviews")
-interviews = delay(9780., interviews)
-interviews = at({get_process_output(playjingles_script)=="true"}, interviews)
-
 # Put all the pieces together
-jukebox = fallback([cjjingle, jingles, interviews, requests, main, backup_playlist], replay_metadata = false)
+jukebox = fallback([cjjingle, jingles, requests, main, backup_playlist], replay_metadata = false)
 jukebox = fallback(track_sensitive=false, [jukebox, techlude])
 
 # Avoid too much blank/silence in tracks
@@ -124,7 +118,7 @@ jukebox = on_metadata(trig_tracklist, jukebox)
 #jukebox = on_offset(force=true, offset=3.0, trig_tracklist, jukebox)
 #jukebox = on_track(trig_tracklist, jukebox)
 
-# Force Liq to separate Icecast metadata.
+# Force Liq to separate Icecast metadata. 
 def update_meta(m) =
 	title = m["title"]
 	artist = m["artist"]

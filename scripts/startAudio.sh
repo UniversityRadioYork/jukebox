@@ -3,7 +3,7 @@
 #/usr/local/etc/liquidsoap/scripts/jackStart.sh &
 echo Starting JACK
 sudo service ury-jack start
-sleep 2
+sleep 10
 #sudo /etc/init.d/liquidsoap start
 echo Fixing WS pidfile permissions...
 sudo chmod 664 /usr/local/var/run/liquidsoap/*.pid
@@ -14,7 +14,14 @@ sleep 2
 echo Restarting WS shittyserver
 sudo systemctl restart shittyserver
 sleep 2
+
+echo Starting FM Streamer # must be done before jack connections
+sudo systemctl restart fm-streamer
+sleep 2
+
 echo jackConnecting
 sudo -u liquidsoap ./jackConnect.sh
+#/usr/local/etc/liquidsoap/scripts/jackConnect.sh
+#sudo service dearie-me restart
 #/usr/local/etc/liquidsoap/scripts/jackConnect.sh
 #sudo service dearie-me restart

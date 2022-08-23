@@ -26,11 +26,11 @@ end
 server.register("toggleCampusPlayout", toggleCampusPlayout)
 
 # Sources
-live = mksafe(input.jack(id="drunk"))
-live = amplify({ 2.0 }, live)
+live = input.jack(id="liveOutput")
 
 jukebox = input.jack(id="liveJukebox")
 
+live = amplify({ 2.0 }, live)
 
 # High Quality Live Stream
 output.icecast(
