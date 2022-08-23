@@ -260,4 +260,4 @@ selector = on_blank(threshold=-55., max_blank=30., blankCritHandler, selector)
 
 selector = mksafe(selector)
 
-output.jack(id="selector", start=true, selector)
+output.jack(id="selector", selector)

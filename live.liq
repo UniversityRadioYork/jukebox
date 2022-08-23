@@ -13,18 +13,6 @@ set('log.file.path', '/usr/local/var/log/liquidsoap/live.log')
 set("frame.audio.channels",2)
 set("frame.audio.samplerate",48000)
 
-# Setup Campus Playout
-campus_playout_studio = ref false
-
-def onCampusPlayout () =
-    !campus_playout_studio
-end
-def toggleCampusPlayout (_) =
-    campus_playout_studio := not !campus_playout_studio
-    "Studio Campus Playout is now #{!campus_playout_studio}"
-end
-server.register("toggleCampusPlayout", toggleCampusPlayout)
-
 # Sources
 live = input.jack(id="liveOutput")
 
@@ -74,31 +62,6 @@ output.icecast(
     name="#{name} - Mobile",
     genre="Student Radio",
     mean(live)) #Mean the two channels together to make mono
-
-# Campus Playout Stream
-campus_playout = mksafe(
-    switch(
-        track_sensitive=false,
-        [
-            (onCampusPlayout, live),
-            ({true}, jukebox)
-        ]
-    )
-)
-
-output.icecast(
-    %mp3(bitrate=192),
-    host=icehost,
-    port=iceport,
-    password=icepass,
-    mount="campus-playout-dev",
-    icy_metadata="true",
-    start=true,
-    url=website,
-    description=description,
-    name="#{name} - Campus Playout",
-    genre="Student Radio",
-    campus_playout)
 
 # Registration on flows
 # Tell the world how awesome we are
