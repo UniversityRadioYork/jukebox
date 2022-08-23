@@ -1,6 +1,5 @@
 #!/usr/local/bin/liquidsoap -v
 
-#%include "conf/sel.conf"
 %include "conf/ice.conf"
 #
 # Streams for the Live output

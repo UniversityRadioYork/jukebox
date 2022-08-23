@@ -2,6 +2,7 @@
 #!/usr/local/bin/liquidsoap -v
 
 %include "conf/sel.conf"
+%include "conf/ice.conf"
 #%include "conf/ice.conf"
 #
 # Streams for the Live output
@@ -46,6 +47,8 @@ S1 = ref false
 S2 = ref false
 JB = ref false
 OB = ref false
+SI = ref false
+OF = ref true
 WS = ref false
 SI = ref false
 OF = ref true
@@ -59,6 +62,15 @@ def onS2 () =
 end
 def onOB () =
     !OB
+end
+def onJB () = 
+    !JB
+end
+def onSI () =
+    !SI
+end
+def onOF () =
+    !OF
 end
 def onJB () = 
     !JB
@@ -80,6 +92,8 @@ def selS1 (_) =
     S2 := false
     JB := false
     OB := false
+    SI := false
+    OF := false
     WS := false
     SI := false
     OF := false
@@ -90,10 +104,21 @@ def selS2 (_) =
     S2 := true
     JB := false
     OB := false
+    SI := false
+    OF := false
     WS := false
     SI := false
     OF := false
     "Studio 2 Selected"
+end
+def selJB (_) =
+    S1 := false
+    S2 := false
+    JB := true
+    OB := false
+    SI := false
+    OF := false
+    "Jukebox Selected"
 end
 def selJB (_) =
     S1 := false
@@ -110,10 +135,30 @@ def selOB (_) =
     S2 := false
     JB := false
     OB := true
+    SI := false
+    OF := false
     WS := false
     SI := false
     OF := false
     "OB Stream Selected"
+end
+def selSI (_) =
+    S1 := false
+    S2 := false
+    JB := false
+    OB := false
+    SI := true
+    OF := false
+    "Sine Wave Selected"
+end
+def selOF (_) = 
+    S1 := false
+    S2 := false
+    JB := false
+    OB := false
+    SI := false
+    OF := true
+    "Off Air Selected"
 end
 def selWS (_) =
     S1 := false
@@ -151,6 +196,8 @@ server.register("selJB", selJB)
 server.register("selS1", selS1)
 server.register("selS2", selS2)
 server.register("selOB", selOB)
+server.register("selSI", selSI)
+server.register("selOF", selOF)
 server.register("selWS", selWS)
 server.register("selSI", selSI)
 server.register("selOF", selOF)
@@ -167,6 +214,10 @@ def sel(s) =
         ignore(selJB())
     elsif s == "OB" then
         ignore(selOB())
+    elsif s == "SI" then
+        ignore(selSI())
+    elsif s == "OF" then
+	ignore(selOF())
     elsif s == "WS" then
         ignore(selWS())
     elsif s == "SI" then
@@ -188,7 +239,7 @@ def crossswitch(a,b)
 #        normalize=false,
 #        [
 #            #sequence([
-#                    #blank(duration=2.5),
+#                    ##blank(duration=2.5),
 #                    #fade.in(duration=5.0,b),
 #            #]),
 #	    
@@ -228,6 +279,8 @@ ob = buffer(buffer=0.1,max=0.1,input.jack(id="selOB"))
 webstudio = buffer(buffer=0.1,max=0.1,input.jack(id="selWS"))
 sine = input.jack(id="selSine")
 offair = input.jack(id="selOffAir")
+sine = input.jack(id="selSine")
+offair = input.jack(id="selOffAir")
 
 # Selector Handlers
 
@@ -248,7 +301,9 @@ selector = switch(
         crossswitch,
         crossswitch,
         crossswitch,
-        crossswitch
+        crossswitch,
+	crossswitch,
+	crossswitch
     ],
     [
         (onS1, studio1),

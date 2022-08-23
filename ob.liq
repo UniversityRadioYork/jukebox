@@ -9,10 +9,6 @@ set("log.file.path","/usr/local/var/log/liquidsoap/ob.log")
 set("frame.audio.channels",2)
 set("frame.audio.samplerate",48000)
 
-set("server.telnet",true)
-set("server.telnet.bind_addr", "127.0.0.1")
-set("server.telnet.port", 1399)
-
 # Get OB Stream
 
 ob = audio_to_stereo(input.http("http://dolby.ury.york.ac.uk:7070/OB-Line"))

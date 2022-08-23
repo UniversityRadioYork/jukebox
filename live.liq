@@ -75,59 +75,6 @@ output.icecast(
     genre="Student Radio",
     mean(live)) #Mean the two channels together to make mono
 
-# HLS stream
-#hls_low = %fdkaac(
-#	channels=2,
-#	bandwidth="auto",
-#	bitrate=48,
-#	afterburner=true,
-#	aot="mpeg4_he_aac_v2",
-#	transmux="adif"
-#)
-
-#hls_med = %fdkaac(
-#	channels=2,
-#	bandwidth="auto",
-#	bitrate=96,
-#	afterburner=true,
-#	aot="mpeg4_aac_lc",
-#	transmux="adts"
-#)
-
-#hls_hi = %fdkaac(
-#	channels=2,
-#	bandwidth="auto",
-#	bitrate=192,
-#	afterburner=true,
-#	aot="mpeg4_aac_lc",
-#	transmux="adts"
-#)
-
-#streams = [
-#	("aac_low", hls_low),
-#	("aac_med", hls_med),
-#	("aac_hi", hls_hi)
-#]
-
-#def segment_name(~position,~extname,stream_name) =
-#  timestamp = int_of_float(gettimeofday())
-#  duration = 2
-#  "#{stream_name}_#{duration}_#{timestamp}_#{position}.#{extname}"
-#end
-
-#output.file.hls(
-#	playlist="live.m3u8",
-#	segment_duration=2.0,
-#	segments=5,
-#	segments_overhead=10,
-#	segment_name=segment_name,
-#	persist=true,
-#	persist_at="/usr/local/share/liquidsoap/hls/state.config",
-#	"/usr/share/icecast2/web/live-hls",
-#	streams,
-#	live
-#)
-
 # Campus Playout Stream
 campus_playout = mksafe(
     switch(
