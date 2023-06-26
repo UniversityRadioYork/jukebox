@@ -12,6 +12,9 @@ ON-AIR.sh
 # Switches FM back to the program out feed
 # Unlocks the studio selectors 
 
+Cron-OFF-AIR.sh
+## Fork of OFF-AIR.sh to be ran automatically (ie removed prompts)
+
 # Ran by other bash scripts:
 	fm_main.sh
 ##	Switches FM to main program out feed
