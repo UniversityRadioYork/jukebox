@@ -22,9 +22,4 @@ ob_new = audio_to_stereo(input.http("http://urysteve.ury.york.ac.uk/OB-Line"))
 
 ob = mksafe(fallback([ob, ob_new]))
 
-# Benjamin Ballenson's fuckery
-ob_new = audio_to_stereo(input.http("http://urysteve.ury.york.ac.uk/OB-Line"))
-
-ob = mksafe(fallback([ob, ob_new]))
-
 output.jack(id="ob", mksafe(ob))

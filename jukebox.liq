@@ -80,7 +80,6 @@ jingles = delay(720. , jingles)
 # Campus Jukebox jingles every 30min
 cjjingle = playlist(mode="randomize", reload=3600, "/jukebox/cj-jingles")
 cjjingle = delay(1800., cjjingle)
-cjjingle = at({get_process_output(playjingles_script)=="true"}, cjjingle)
 
 #Interviews every so often I guess sorry future man
 interviews = playlist(mode="randomize", reload=3600, "jukebox/interviews")
