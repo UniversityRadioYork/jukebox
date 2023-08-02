@@ -6,10 +6,6 @@ jack_connect system:capture_11 selStudio1:in_0
 jack_connect system:capture_12 selStudio1:in_1
 jack_connect system:capture_13 selStudio2:in_0
 jack_connect system:capture_14 selStudio2:in_1
-jack_connect system:capture_1 directStudio1:in_0
-jack_connect system:capture_2 directStudio1:in_1
-jack_connect system:capture_3 directStudio2:in_0
-jack_connect system:capture_4 directStudio2:in_1
 jack_connect system:capture_11 directStudio1:in_0
 jack_connect system:capture_12 directStudio1:in_1
 jack_connect system:capture_13 directStudio2:in_0
@@ -20,10 +16,6 @@ jack_connect jukebox:out_0 selJukebox:in_0
 jack_connect jukebox:out_1 selJukebox:in_1
 jack_connect jukebox:out_0 liveJukebox:in_0
 jack_connect jukebox:out_1 liveJukebox:in_1
-jack_connect sine:out_0 selSine:in_0
-jack_connect sine:out_1 selSine:in_1
-jack_connect offair:out_0 selOffAir:in_0
-jack_connect offair:out_1 selOffAir:in_1
 jack_connect sine:out_0 selSine:in_0
 jack_connect sine:out_1 selSine:in_1
 jack_connect offair:out_0 selOffAir:in_0
@@ -81,12 +73,6 @@ jack_connect system:capture_18 news2:in_1
 
 # Leave WebStudio last - because, if services are started in the wrong order, these calls will fail
 # - marks.polakovs@ury.org.uk 2020
-# Commented out for new routes below
-#jack_connect webstudio:out_0 directWebStudio:in_0
-#jack_connect webstudio:out_1 directWebStudio:in_1
-#jack_connect webstudio:out_0 selWS:in_0
-#jack_connect webstudio:out_1 selWS:in_1
-
 # Commented out for new routes below
 #jack_connect webstudio:out_0 directWebStudio:in_0
 #jack_connect webstudio:out_1 directWebStudio:in_1

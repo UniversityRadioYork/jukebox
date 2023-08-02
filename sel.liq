@@ -2,7 +2,6 @@
 #!/usr/local/bin/liquidsoap -v
 
 %include "conf/sel.conf"
-%include "conf/ice.conf"
 #%include "conf/ice.conf"
 #
 # Streams for the Live output
@@ -185,24 +184,24 @@ def crossswitch(a,b)
     #old = fade.final(duration=2.5,a) #.2
     #new = fade.initial(duration=2.5,b), #.2
     #add(normalize=false, [sequence([old,new]);
-    #    add(
-    #        normalize=false,
-    #        [
-    #            #sequence([
-    #                    #blank(duration=2.5),
-    #                    #fade.in(duration=5.0,b),
-    #            #]),
-    #
-    #            fade.out(duration=2.5,a),
-    #          fade.in(duration=2.5,b)
-    #        ]
-    #    )
-    add(normalize=false,
-        [ fade.final(duration=4.,a), sequence([ blank(duration=2.),
-            fade.initial(duration=2.,b) ])
-        ]
-    )
-    # fade.final(duration=5.,type="wow",a) ])
+#    add(
+#        normalize=false,
+#        [
+#            #sequence([
+#                    #blank(duration=2.5),
+#                    #fade.in(duration=5.0,b),
+#            #]),
+#	    
+#            fade.out(duration=2.5,a),
+#	    fade.in(duration=2.5,b)
+#        ]
+#    )
+  add(normalize=false,
+	  [ fade.final(duration=4.,a), sequence([ blank(duration=2.),
+	               fade.initial(duration=2.,b) ])
+	  ]
+	)
+	   # fade.final(duration=5.,type="wow",a) ])
 end
 
 
@@ -227,6 +226,8 @@ studio2 = input.jack(id="selStudio2")
 jukebox = buffer(buffer=0.1,max=0.1,input.jack(id="selJukebox"))
 ob = buffer(buffer=0.1,max=0.1,input.jack(id="selOB"))
 webstudio = buffer(buffer=0.1,max=0.1,input.jack(id="selWS"))
+sine = input.jack(id="selSine")
+offair = input.jack(id="selOffAir")
 
 # Selector Handlers
 
@@ -234,6 +235,16 @@ selector = switch(
     track_sensitive=false,
     
     transitions=[
+    #     crossfade,
+    #     crossfade,
+    #     crossfade,
+    #     crossfade,
+    #     crossfade,
+    #     crossfade,
+    #     crossfade
+        crossswitch,
+        crossswitch,
+        crossswitch,
         crossswitch,
         crossswitch,
         crossswitch,
@@ -260,4 +271,4 @@ selector = on_blank(threshold=-55., max_blank=30., blankCritHandler, selector)
 
 selector = mksafe(selector)
 
-output.jack(id="selector", selector)
+output.jack(id="selector", start=true, selector)

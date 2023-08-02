@@ -23,5 +23,3 @@ echo jackConnecting
 sudo -u liquidsoap ./jackConnect.sh
 #/usr/local/etc/liquidsoap/scripts/jackConnect.sh
 #sudo service dearie-me restart
-#/usr/local/etc/liquidsoap/scripts/jackConnect.sh
-#sudo service dearie-me restart

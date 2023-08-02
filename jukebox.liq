@@ -21,7 +21,6 @@ set("frame.audio.samplerate",48000)
 set("protocol.ffmpeg.replaygain",true)
 enable_replaygain_metadata()
 
-
 # Local file if music filestore isn't
 interludelong = mksafe(single("/jukebox/intermission-long.mp3"))
 interludelong = crossfade(duration=2., fade_in=1.2, fade_out=1.2, interludelong)
@@ -77,7 +76,6 @@ server.register("now_playing", get_now_playing)
 # Jingles every 12min~ish, not to coincide too often with the Jukebox ones below.
 jingles = playlist(reload_mode="watch", "/jukebox/jingles")
 jingles = delay(720. , jingles)
-jingles = at({get_process_output(playjingles_script)=="true"}, jingles)
 
 # Campus Jukebox jingles every 30min
 cjjingle = playlist(mode="randomize", reload=3600, "/jukebox/cj-jingles")
@@ -89,8 +87,14 @@ interviews = playlist(mode="randomize", reload=3600, "jukebox/interviews")
 interviews = delay(9780., interviews)
 interviews = at({get_process_output(playjingles_script)=="true"}, interviews)
 
+#Interviews every so often I guess sorry future man
+#interviews = playlist(mode="randomize", reload=3600, "jukebox/interviews")
+#interviews = delay(9780., interviews)
+#interviews = at({get_process_output(playjingles_script)=="true"}, interviews)
+
 # Put all the pieces together
-jukebox = fallback([cjjingle, jingles, interviews, requests, main, backup_playlist], replay_metadata = false)
+#jukebox = fallback([cjjingle, jingles, interviews, requests, main, backup_playlist], replay_metadata = false)
+jukebox = fallback([cjjingle, jingles, requests, main, backup_playlist], replay_metadata = false)
 jukebox = fallback(track_sensitive=false, [jukebox, techlude])
 
 # Avoid too much blank/silence in tracks
