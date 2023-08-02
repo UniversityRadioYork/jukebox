@@ -84,7 +84,6 @@ cjjingle = delay(1800., cjjingle)
 #Interviews every so often I guess sorry future man
 interviews = playlist(mode="randomize", reload=3600, "jukebox/interviews")
 interviews = delay(9780., interviews)
-interviews = at({get_process_output(playjingles_script)=="true"}, interviews)
 
 #Interviews every so often I guess sorry future man
 #interviews = playlist(mode="randomize", reload=3600, "jukebox/interviews")
