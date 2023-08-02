@@ -101,4 +101,5 @@ jack_connect wspostanews:out_1 obws_ws:in_1
 #jack_connect stereo_tool:out_l stool_out:in_0
 
 # Connect up FM
-./fm_main.sh
+#./fm_main.sh old
+./fm_new_jacks.sh
