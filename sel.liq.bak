@@ -60,7 +60,7 @@ end
 def onOB () =
     !OB
 end
-def onJB () =
+def onJB () = 
     !JB
 end
 def onWS () =
@@ -135,7 +135,7 @@ def selSI (_) =
     OF := false
     "Sine Wave Selected"
 end
-def selOF (_) =
+def selOF (_) = 
     S1 := false
     S2 := false
     JB := false
@@ -172,7 +172,7 @@ def sel(s) =
     elsif s == "SI" then
         ignore(selSI())
     elsif s == "OF" then
-	    ignore(selOF())
+	ignore(selOF())
     end
 end
 
@@ -248,10 +248,7 @@ selector = switch(
         crossswitch,
         crossswitch,
         crossswitch,
-        crossswitch,
-	    crossswitch,
-	    crossswitch,
-	    crossswitch
+        crossswitch
     ],
     [
         (onS1, studio1),
@@ -259,10 +256,15 @@ selector = switch(
         (onJB, jukebox),
         (onOB, ob),
         (onWS, webstudio),
-        (onSI, sine),
-        (onOF, offair)
+	(onSI, sine),
+	(onOF, offair)
     ]
 )
+
+# Auto News 2020 (moved to webstudio.liq)
+#autonews = input.jack(id="autonews")
+
+#selector = add([selector, mksafe(autonews)])
 
 selector = amplify(0.85, selector)
 

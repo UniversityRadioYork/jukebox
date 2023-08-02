@@ -1,0 +1,22 @@
+#!/usr/local/bin/liquidsoap -v
+
+#
+# Send Audio to the FM transmitter through a totally unsuitable, stupid last-minute bodge
+#
+
+set("init.daemon.pidfile.path", "/usr/local/var/run/liquidsoap/fm-stl.pid")
+set("log.level",3)
+set("log.stdout", true)
+set("log.file", true)
+set('log.file.path', '/usr/local/var/log/liquidsoap/fm-stl.pid')
+
+set("frame.audio.channels",2)
+set("frame.audio.samplerate",48000)
+
+live = input.jack(id="fmOutput")
+live = fallback([live,single("/jukebox/TechnicalDifficultiesVoice.mp3")])
+
+output.srt(host="144.32.64.181",
+           port=18830,
+           %wav(stereo=true, channels=2, header=false),
+           buffer(live))

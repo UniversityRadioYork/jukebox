@@ -1,6 +1,6 @@
 #!/usr/local/bin/liquidsoap -v
 
-%include "conf/sel.conf"
+#%include "conf/sel.conf"
 %include "conf/ice.conf"
 #
 # Streams for the Live output
@@ -11,6 +11,8 @@ set("log.stdout", true)
 set("log.file", true)
 set('log.file.path', '/usr/local/var/log/liquidsoap/studios.log')
 
+set("frame.audio.channels",2)
+set("frame.audio.samplerate",48000)
 
 # Sources
 studio1 = input.jack(id="directStudio1")
@@ -23,10 +25,11 @@ output.icecast(
         password=icepass,
         mount="studio-red",
         url=website,
-        description="Direct feed from Studio Red",
-        name="URY Studio Red",
+        description="Direct feed from Studio Red. " ^ description,
+        name="URY Studio Red | " ^ name,
         genre="Student Radio",
-        studio1
+	start=true,
+        mksafe(buffer(studio1))
     )
 
 output.icecast(
@@ -36,8 +39,9 @@ output.icecast(
         password=icepass,
         mount="studio-blue",
         url=website,
-        description="Direct feed from Studio Blue",
-        name="URY Studio Blue",
+        description="Direct feed from Studio Blue. " ^ description,
+        name="URY Studio Blue | " ^ name ,
         genre="Student Radio",
-        studio2
+	start=true,
+        mksafe(buffer(studio2))
     )
