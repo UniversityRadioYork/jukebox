@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 echo "Warning! This will turn all broadcasts to jukebox"
 echo " "
 echo "Confirm"

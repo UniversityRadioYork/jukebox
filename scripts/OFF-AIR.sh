@@ -1,4 +1,6 @@
+#!/usr/bin/env bash
 echo "WARNING!!! THIS WILL TURN ON OFF-AIR MODE"
+
 echo " "
 echo "Confirm"
 read dummy
