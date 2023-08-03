@@ -6,10 +6,6 @@ jack_connect system:capture_11 selStudio1:in_0
 jack_connect system:capture_12 selStudio1:in_1
 jack_connect system:capture_13 selStudio2:in_0
 jack_connect system:capture_14 selStudio2:in_1
-jack_connect system:capture_11 directStudio1:in_0
-jack_connect system:capture_12 directStudio1:in_1
-jack_connect system:capture_13 directStudio2:in_0
-jack_connect system:capture_14 directStudio2:in_1
 jack_connect jukebox:out_0 system:playback_15
 jack_connect jukebox:out_1 system:playback_16
 jack_connect jukebox:out_0 selJukebox:in_0
@@ -48,27 +44,18 @@ jack_connect selector:out_0 system:playback_5 # URYBlue Online Logger L
 jack_connect selector:out_1 system:playback_6 # URYBlue Online Logger R
 jack_connect system:capture_3 liveOutput:in_0 #TX Compressor to Online Streams L
 jack_connect system:capture_4 liveOutput:in_1 #TX Compressor to Online Streams R
-jack_connect system:capture_5 am:in_0
-jack_connect system:capture_6 am:in_1
 
 jack_connect system:capture_5 system:playback_17 # ADAT 5 // AM Monoed
 jack_connect system:capture_6 system:playback_17
 jack_connect system:capture_7 system:playback_18 # ADAT 6 // FM Monoed
 jack_connect system:capture_8 system:playback_18
 
-jack_connect system:capture_7 fm:in_0
-jack_connect system:capture_8 fm:in_1
 
 # Headphone monitor ports on front of scarlett for AM and FM
 jack_connect system:capture_5 system:playback_7
 jack_connect system:capture_6 system:playback_8
 jack_connect system:capture_7 system:playback_9
 jack_connect system:capture_8 system:playback_10
-
-jack_connect system:capture_17 news:in_0 # IRN 1 (Main hourly news) is left channel
-jack_connect system:capture_17 news:in_1
-jack_connect system:capture_18 news2:in_0 # IRN 2 (Important events etc) is right channel
-jack_connect system:capture_18 news2:in_1
 
 
 # Leave WebStudio last - because, if services are started in the wrong order, these calls will fail
