@@ -29,27 +29,6 @@ jack_connect offair:out_1 selOffAir:in_1
 jack_connect selector:out_0 system:playback_1 #Selector to TX Compressor L
 jack_connect selector:out_1 system:playback_2 #Selector to TX Compressor R
 
-# Logging
-jack_connect system:capture_3 system:playback_5 # URYBlue Online Logger L
-jack_connect system:capture_4 system:playback_6 # URYBlue Online Logger R
-
-jack_connect system:capture_7 system:playback_3 # FM Receiver -> URYRed L
-jack_connect system:capture_8 system:playback_4 # FM Receiver -> URYRed L
-
-# Monitoring
-jack_connect system:capture_3 system:playback_13 # PGM -> Studios L
-jack_connect system:capture_4 system:playback_14 # PGM -> Studios R
-
-jack_connect system:capture_7 system:playback_17 # FM Receiver -> Studios
-jack_connect system:capture_8 system:playback_18
-
-# Headphones
-jack_connect system:capture_3 system:playback_7 # Headphone PGM Monitor
-jack_connect system:capture_4 system:playback_8
-
-jack_connect system:capture_7 system:playback_9 # Headphone FM Monitor
-jack_connect system:capture_8 system:playback_10
-
 # WS+AutoNews
 jack_connect webstudio:out_0 wspreanews:in_0
 jack_connect webstudio:out_1 wspreanews:in_1
