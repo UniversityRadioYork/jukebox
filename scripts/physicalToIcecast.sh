@@ -15,7 +15,6 @@ publish () {
                 -f null -map "[vid]" /dev/null
 }
 
-publish "am" "am" "AM" &
 publish "fm" "fm" "FM" &
 publish "news" "news" "IRN News 1" &
 publish "news2" "news2" "IRN News 2" &
@@ -29,9 +28,6 @@ jack_connect system:capture_12 directStudio1:input_2
 
 jack_connect system:capture_13 directStudio2:input_1
 jack_connect system:capture_14 directStudio2:input_2
-
-jack_connect system:capture_5 am:input_1
-jack_connect system:capture_6 am:input_2
 
 jack_connect system:capture_7 fm:input_1
 jack_connect system:capture_8 fm:input_2
