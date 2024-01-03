@@ -4,7 +4,7 @@
       "owner": "liquidsoap",
       "pattern": [
         {
-          "regexp": "^([^\\s].*): At line (\\d+), char (\\d+)-(\\d+):$",
+          "regexp": "^([^\\s].*): Line (\\d+), char (\\d+)(?:-(\\d+))?:$",
           "file": 1,
           "line": 2,
           "column": 3
