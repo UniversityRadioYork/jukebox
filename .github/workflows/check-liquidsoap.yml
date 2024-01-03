@@ -33,12 +33,10 @@ jobs:
           popd
       - name: Check scripts
         run: |
-          $(opam env)
           set +e
           exit=0
           for f in *.liq; do
-            liquidsoap --check $f
+            opam exec --liquidsoap --check $f
             exit=$((exit + $?))
           done
-          # failures on 2.0 are allowed (for now)
-          ${{ startsWith(matrix.liquidsoap-version, '2') && 'exit 0' ||  'echo $exit' }}
+          exit $exit
