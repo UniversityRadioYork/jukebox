@@ -1,0 +1,40 @@
+name: Check Liquidsoap scripts for correctness
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  check-liquidsoap:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        liquidsoap-version: ["1.4.3"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up OCaml
+        uses: ocaml/setup-ocaml@v2
+        with:
+          ocaml-compiler: "4.14.0"
+      - name: Install Liquidsoap
+        run: |
+          opam pin -y liquidsoap ${{ matrix.liquidsoap-version }}
+          opam install -y ffmpeg opus bjack cry fdkaac gstreamer lame samplerate taglib ssl vorbis liquidsoap
+      - name: Set up config files
+        run: |
+          pushd conf
+          for f in *.dist; do
+            cp $f ${f%.dist}
+          done
+          popd
+      - name: Check scripts
+        run: |
+          set +e
+          exit=0
+          for f in *.liq; do
+            liquidsoap --check $f
+            exit=$((exit + $?))
+          done
+          echo $exit
