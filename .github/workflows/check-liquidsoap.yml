@@ -33,7 +33,8 @@ jobs:
           popd
       - name: Check scripts
         run: |
-          set +e
+          echo "::add-matcher::.github/problem-matcher-liquidsoap.json"
+          set +e -o pipefail
           exit=0
           for f in *.liq; do
             opam exec -- liquidsoap --check $f | sed -e "s/^/$f: /;"
