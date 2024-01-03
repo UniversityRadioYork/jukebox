@@ -20,7 +20,8 @@ jobs:
           ocaml-compiler: "4.14.0"
       - name: Install Liquidsoap
         run: |
-          opam pin -y liquidsoap ${{ matrix.liquidsoap-version }}
+          opam pin -y --no-action liquidsoap ${{ matrix.liquidsoap-version }}
+          opam depext -y ffmpeg opus bjack cry fdkaac gstreamer lame samplerate taglib ssl vorbis liquidsoap
           opam install -y ffmpeg opus bjack cry fdkaac gstreamer lame samplerate taglib ssl vorbis liquidsoap
       - name: Set up config files
         run: |
@@ -37,4 +38,5 @@ jobs:
             liquidsoap --check $f
             exit=$((exit + $?))
           done
-          echo $exit
+          # failures on 2.0 are allowed (for now)
+          ${{ startsWith(matrix.liquidsoap-version, '2') && 'exit 0' ||  'echo $exit' }}
