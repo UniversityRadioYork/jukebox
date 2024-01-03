@@ -22,8 +22,7 @@ jobs:
         run: |
           opam pin -y --no-action liquidsoap ${{ matrix.liquidsoap-version }}
           sudo apt update -y
-          sudo apt autoremove -y
-          opam depext -y ffmpeg opus bjack cry fdkaac gstreamer lame samplerate taglib ssl vorbis liquidsoap
+          sudo apt-get install -qq -yy libavcodec-dev libavdevice-dev libavformat-dev libavutil-dev libfdk-aac-dev libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev libjack-dev libmp3lame-dev libogg-dev libopus-dev libsamplerate0-dev libswresample-dev libswscale-dev libtag1-dev libvorbis-dev
           opam install -y ffmpeg opus bjack cry fdkaac gstreamer lame samplerate taglib ssl vorbis liquidsoap
       - name: Set up config files
         run: |
