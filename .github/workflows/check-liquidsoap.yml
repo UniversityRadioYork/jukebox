@@ -33,6 +33,7 @@ jobs:
           popd
       - name: Check scripts
         run: |
+          $(opam env)
           set +e
           exit=0
           for f in *.liq; do
