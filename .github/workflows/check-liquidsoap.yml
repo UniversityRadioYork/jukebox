@@ -36,7 +36,7 @@ jobs:
           set +e
           exit=0
           for f in *.liq; do
-            opam exec --liquidsoap --check $f
+            opam exec -- liquidsoap --check $f
             exit=$((exit + $?))
           done
           exit $exit
