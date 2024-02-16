@@ -8,8 +8,14 @@
 		-f jack -i fm-stl-jbox -channels 2 \
 		-f jack -i fm-stl-anews -channels 2 \
 		-c:a pcm_s16be `# audio codec` \
-		-filter_complex "[0]volume@s0=1[a];[1]volume@s1=0[b];[2]volume@s2=0[c];[a][b][c]amix=inputs=3,azmq" \
+		-filter_complex "[0]volume@s0=1[a];[1]volume@s1=0[b];[2]volume@s2=0[c];[a][b][c]amix=inputs=3:normalize=false,azmq" \
 		-f rtp  `# output format (rtp stream)` \
 		-sdp_file /tmp/mem.sdp `# session description protocol logging file` \
-		rtp://144.32.224.6:18830 `# fmstl pi` 
+		rtp://144.32.224.6:18830 `# fmstl pi` &
+
+sleep 2
+/usr/local/etc/liquidsoap/scripts/fm_new_jacks.sh
+
+wait
+
 

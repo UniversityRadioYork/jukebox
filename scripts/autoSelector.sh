@@ -10,7 +10,7 @@ cd thonkyBoi
 cd ..
 sleep 30
 
-python3 /usr/local/etc/liquidsoap/scripts/webStudioSwitcher.py &
-python3 /usr/local/etc/liquidsoap/scripts/autoNews.py &
+python3 -u /usr/local/etc/liquidsoap/scripts/webStudioSwitcher.py &
+python3 -u /usr/local/etc/liquidsoap/scripts/autoNews.py &
 
 wait

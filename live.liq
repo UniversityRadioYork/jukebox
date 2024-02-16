@@ -16,7 +16,7 @@ set("frame.audio.samplerate",48000)
 # Sources
 live = input.jack(id="liveOutput")
 
-jukebox = input.jack(id="liveJukebox")
+#jukebox = input.jack(id="liveJukebox")
 
 live = amplify({ 2.0 }, live)
 

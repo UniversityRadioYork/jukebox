@@ -249,9 +249,6 @@ selector = switch(
         crossswitch,
         crossswitch,
         crossswitch,
-	    crossswitch,
-	    crossswitch,
-	    crossswitch
     ],
     [
         (onS1, studio1),
@@ -264,7 +261,7 @@ selector = switch(
     ]
 )
 
-selector = amplify(0.85, selector)
+#selector = amplify(0.85, selector)
 
 selector = on_blank(threshold=-55., max_blank=2., min_noise=1., on_noise=blankEndHandler, blankHandler, selector)
 selector = on_blank(threshold=-55., max_blank=30., blankCritHandler, selector)

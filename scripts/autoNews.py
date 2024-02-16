@@ -34,8 +34,8 @@ if offset > 45:
     print("Something's gone terribly wrong!")
     sys.exit(1)
 
-print("Sleeping for {}".format(40.0 - offset))
-time.sleep(40.0 - offset)
+print("Sleeping for {}".format(39.5 - offset))
+time.sleep(39.5 - offset)
 
 print("Starting mpv")
 jingle_proc = subprocess.Popen(

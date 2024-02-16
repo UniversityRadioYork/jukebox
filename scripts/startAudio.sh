@@ -17,7 +17,7 @@ sleep 2
 
 echo Starting FM Streamer # must be done before jack connections
 sudo systemctl restart fm-streamer
-sleep 2
+sleep 5
 
 echo jackConnecting
 sudo -u liquidsoap ./jackConnect.sh
