@@ -15,4 +15,3 @@ input = amplify(.15, input)
 
 # Output to soundcards
 output.jack(id="sine", start=true, input)
-output.jack(id="testnews2", start=true, input)

@@ -15,11 +15,11 @@ echo Restarting WS shittyserver
 sudo systemctl restart shittyserver
 sleep 2
 
-echo Starting FM Streamer # must be done before jack connections
-sudo systemctl restart fm-streamer
-sleep 5
-
 echo jackConnecting
 sudo -u liquidsoap ./jackConnect.sh
-#/usr/local/etc/liquidsoap/scripts/jackConnect.sh
-#sudo service dearie-me restart
+sleep 2
+
+sudo service dearie-me restart
+
+echo Starting FM Streamer
+sudo systemctl restart fm-streamer
