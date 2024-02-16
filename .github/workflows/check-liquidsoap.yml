@@ -1,0 +1,43 @@
+name: Check Liquidsoap scripts for correctness
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  check-liquidsoap:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        liquidsoap-version: ["1.4.3"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up OCaml
+        uses: ocaml/setup-ocaml@v2
+        with:
+          ocaml-compiler: "4.14.0"
+      - name: Install Liquidsoap
+        run: |
+          opam pin -y --no-action liquidsoap ${{ matrix.liquidsoap-version }}
+          sudo apt update -y
+          sudo apt -f install libavcodec-dev libavdevice-dev libavformat-dev libavutil-dev libfdk-aac-dev libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev libjack-dev liblo-dev libmp3lame-dev libogg-dev libopus-dev libsamplerate0-dev libswresample-dev libswscale-dev libtag1-dev libunwind-dev libvorbis-dev
+          opam install -y ffmpeg opus bjack cry fdkaac gstreamer lame samplerate taglib ssl vorbis lo liquidsoap
+      - name: Set up config files
+        run: |
+          pushd conf
+          for f in *.dist; do
+            cp $f ${f%.dist}
+          done
+          popd
+      - name: Check scripts
+        run: |
+          echo "::add-matcher::.github/problem-matcher-liquidsoap.json"
+          set +e -o pipefail
+          exit=0
+          for f in *.liq; do
+            opam exec -- liquidsoap --check $f | sed -e "s/^/$f: /;"
+            exit=$((exit + $?))
+          done
+          exit $exit
