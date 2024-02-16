@@ -134,7 +134,7 @@ def update_meta(m) =
 end
 
 jukebox = map_metadata(update_meta, mksafe(jukebox))
-
+jukebox = amplify(0.7, jukebox)
 # Output to soundcards
 
 output.jack(id="jukebox", start=true, jukebox)

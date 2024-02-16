@@ -19,7 +19,7 @@ echo jackConnecting
 sudo -u liquidsoap ./jackConnect.sh
 sleep 2
 
-#sudo service dearie-me restart
+sudo service dearie-me restart
 
 echo Starting FM Streamer
 sudo systemctl restart fm-streamer
