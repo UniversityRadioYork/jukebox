@@ -35,35 +35,40 @@ jack_connect system:capture_4 liveOutput:in_1 #TX Compressor to Online Streams R
 
 jack_connect selector:out_0 system:playback_1 #Selector to TX Compressor L
 jack_connect selector:out_1 system:playback_2 #Selector to TX Compressor R
-jack_connect selector:out_0 system:playback_3 #AM Compressor In (Monoing L)
-jack_connect selector:out_1 system:playback_3 #AM Compressor In (Monoing R)
-jack_connect selector:out_0 system:playback_4
-jack_connect selector:out_1 system:playback_4
-jack_connect selector:out_0 system:playback_13 # ADAT 1 -> Selector "Online" to studios
-jack_connect selector:out_1 system:playback_14 # ADAT 2 // R
+
+# below are all patched in the soundcard
+#jack_connect selector:out_0 system:playback_3 #AM Compressor In (Monoing L)
+#jack_connect selector:out_1 system:playback_3 #AM Compressor In (Monoing R)
+#jack_connect selector:out_0 system:playback_4
+#jack_connect selector:out_1 system:playback_4
+#jack_connect selector:out_0 system:playback_13 # ADAT 1 -> Selector "Online" to studios
+#jack_connect selector:out_1 system:playback_14 # ADAT 2 // R
 
 
+# patched in soundcard
+#jack_connect selector:out_0 system:playback_5 # URYBlue Online Logger L
+#jack_connect selector:out_1 system:playback_6 # URYBlue Online Logger R
 
-jack_connect selector:out_0 system:playback_5 # URYBlue Online Logger L
-jack_connect selector:out_1 system:playback_6 # URYBlue Online Logger R
 jack_connect system:capture_3 liveOutput:in_0 #TX Compressor to Online Streams L
 jack_connect system:capture_4 liveOutput:in_1 #TX Compressor to Online Streams R
-jack_connect system:capture_5 am:in_0
-jack_connect system:capture_6 am:in_1
+jack_connect system:capture_5 dab:in_0
+jack_connect system:capture_6 dab:in_1
 
-jack_connect system:capture_5 system:playback_17 # ADAT 5 // AM Monoed
-jack_connect system:capture_6 system:playback_17
-jack_connect system:capture_7 system:playback_18 # ADAT 6 // FM Monoed
-jack_connect system:capture_8 system:playback_18
+# patched in soundcard
+#jack_connect system:capture_5 system:playback_17 # ADAT 5 // AM Monoed
+#jack_connect system:capture_6 system:playback_17
+#jack_connect system:capture_7 system:playback_18 # ADAT 6 // FM Monoed
+#jack_connect system:capture_8 system:playback_18
 
 jack_connect system:capture_7 fm:in_0
 jack_connect system:capture_8 fm:in_1
 
 # Headphone monitor ports on front of scarlett for AM and FM
-jack_connect system:capture_5 system:playback_7
-jack_connect system:capture_6 system:playback_8
-jack_connect system:capture_7 system:playback_9
-jack_connect system:capture_8 system:playback_10
+# patched in soundcard
+#jack_connect system:capture_5 system:playback_7
+#jack_connect system:capture_6 system:playback_8
+#jack_connect system:capture_7 system:playback_9
+#jack_connect system:capture_8 system:playback_10
 
 jack_connect system:capture_17 news:in_0 # IRN 1 (Main hourly news) is left channel
 jack_connect system:capture_17 news:in_1

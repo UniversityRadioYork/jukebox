@@ -73,17 +73,14 @@ def get_now_playing(_)
 end
 server.register("now_playing", get_now_playing)
 
-# Jingles every 12min~ish, not to coincide too often with the Jukebox ones below.
+# Jingles every 25min~ish, not to coincide too often with the Jukebox ones below.
 jingles = playlist(reload_mode="watch", "/jukebox/jingles")
-jingles = delay(720. , jingles)
+jingles = delay(1500. , jingles)
 
-# Campus Jukebox jingles every 30min
+# Campus Jukebox jingles every hour
 cjjingle = playlist(mode="randomize", reload=3600, "/jukebox/cj-jingles")
-cjjingle = delay(1800., cjjingle)
+cjjingle = delay(3600., cjjingle)
 
-#Interviews every so often I guess sorry future man
-interviews = playlist(mode="randomize", reload=3600, "jukebox/interviews")
-interviews = delay(9780., interviews)
 
 #Interviews every so often I guess sorry future man
 #interviews = playlist(mode="randomize", reload=3600, "jukebox/interviews")

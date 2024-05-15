@@ -16,24 +16,24 @@ set("frame.audio.channels",2)
 set("frame.audio.samplerate",48000)
 
 # Sources
-am = input.jack(id="am")
-am = amplify(1.0, am)
+dab = input.jack(id="dab")
+dab = amplify(1.0, dab)
 fm = input.jack(id="fm")
 fm = amplify (2.5, fm)
 
-clock.assign_new(id="amStream",
+clock.assign_new(id="dabStream",
 [output.icecast(
     %mp3(bitrate=192, samplerate=48000, stereo=true),
     host=icehost,
     port=iceport,
     password=icepass,
-    mount="am",
+    mount="dab",
     url=website,
     description=description,
-    name="AM Reciever Feed | " ^ name,
+    name="Our shiny new DAB Reciever Feed | " ^ name,
     genre="Student Radio",
     start=true,
-    mksafe(buffer(am)))],
+    mksafe(buffer(dab)))],
 )
 
 clock.assign_new(id="fmStream",
