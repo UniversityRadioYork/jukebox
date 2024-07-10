@@ -14,8 +14,6 @@ jack_connect jukebox:out_0 system:playback_15
 jack_connect jukebox:out_1 system:playback_16
 jack_connect jukebox:out_0 selJukebox:in_0
 jack_connect jukebox:out_1 selJukebox:in_1
-jack_connect jukebox:out_0 liveJukebox:in_0
-jack_connect jukebox:out_1 liveJukebox:in_1
 jack_connect sine:out_0 selSine:in_0
 jack_connect sine:out_1 selSine:in_1
 jack_connect offair:out_0 selOffAir:in_0
