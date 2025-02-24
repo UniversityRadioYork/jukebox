@@ -26,4 +26,5 @@ sleep 2
 echo jackConnecting
 sudo -u liquidsoap ./jackConnect.sh
 #/usr/local/etc/liquidsoap/scripts/jackConnect.sh
-#sudo service dearie-me restart
+sudo systemctl restart dearie-me
+sudo systemctl restart dearie-me@system:capture_5

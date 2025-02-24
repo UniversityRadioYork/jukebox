@@ -39,7 +39,7 @@ time.sleep(39.5 - offset)
 
 print("Starting mpv")
 jingle_proc = subprocess.Popen(
-        ["mpv", "--ao=jack", "--jack-connect=yes", "--jack-port=autonews:in_(0|1)", "--jack-name=news_jingle", "--quiet", "jingle5secintro_v6FM2_normalised.wav"]
+        ["mpv", "--ao=jack", "--jack-connect=yes", "--jack-port=autonews:in_(0|1)", "--jack-name=news_jingle", "--quiet", "jingle5secintro_DAB_normalised_v1.wav"]
 )
 ## this jingle has a 5 second silence intro, give us 3 secs for mpv to start (generous), leaving 2 secs for jack to connect before jingle.
 ## temporarily disabled - marks.polakovs@ury.org.uk
@@ -58,8 +58,9 @@ if USE_LIVE_IN:
 else:
     print("Starting mpv 2")
     news_proc = subprocess.Popen(
-            ["mpv", "--ao=jack", "--jack-connect=yes", "--jack-port=autonews:in_(0|1)", "--jack-name=test_news", "snrnews.mp3"]
+            ["mpv", "--ao=jack", "--jack-connect=yes", "--jack-port=autonews:in_0", "--jack-name=test_news", "snrnews.mp3"]
     )
+    subprocess.run(["jack_connect", "test_news:out_0", OUTPUT[1]])
 
     #time.sleep(1)
     #subprocess.run(["jack_connect", "test_news:out_0", OUTPUT[0]])

@@ -25,7 +25,7 @@ news = audio_to_stereo(stereo.left(news))
 def on_silence() = 
 	ignore(system("/usr/local/etc/liquidsoap/scripts/dishy_boi.sh"))
 end
-news = on_blank(max_blank=180.0, start_blank=false, on_silence, news)
+news = on_blank(max_blank=300.0, start_blank=false, on_silence, news)
 
 news = amplify(1.5, news)
 

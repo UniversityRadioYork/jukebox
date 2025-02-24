@@ -20,6 +20,7 @@ ws = input.jack(id="wspreanews")
 #AutoNews
 autonews = input.jack(id="autonews")
 autonews = amplify(2.23, autonews) # 2.23 is +7dB
+autonews = amplify(0.79, autonews)
 ws = add([ws, mksafe(autonews)])
 
 output.jack(id="wspostanews", start=true, ws)
