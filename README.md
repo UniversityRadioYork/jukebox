@@ -15,7 +15,7 @@ Capabilities
 
 Requirements
 ============
-Liquidsoap (http://liquidsoap.fm) is an incredibly powerful and fast-changing tool for automating radio stations. This script expects version 1.1.1, which as of January 2014 you'll need to compile from source on any system we've used it on (Ubuntu, Debian, FreeBSD).
+Liquidsoap (http://liquidsoap.fm) is an incredibly powerful and fast-changing tool for automating radio stations. This script expects version 1.4.3, which as of January 2014 you'll need to compile from source on any system we've used it on (Ubuntu, Debian, FreeBSD).
 
 This script outputs to both a local soundcard and an Icecast stream - so you'll be wanting an Icecast server to be streaming to as well. The ones in packages/ports are fine.
 
